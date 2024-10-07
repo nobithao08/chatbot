@@ -2,15 +2,82 @@
 <html lang="en">
 
 <head>
-    <title>Home page</title>
+    <title>Set up the Restaurant Chatbot with Messenger</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/js/profile.js"></script>
 </head>
 
 <body>
-    <h1> Hello world from ejs file</h1>
-    <!-- Load Facebook SDK for JavaScript -->
+
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="mt-3">
+                    <div class="mt-3">
+                        Đây là một trang đơn giản, hướng dẫn kiểm tra Bot Messenger của Facebook
+                        (demo về Messenger Bot Booking Care with Nobi - nhấp vào Biểu tượng Messenger ở góc dưới bên
+                        phải)
+                    </div>
+                    <div style="color: red">Vui lòng nhấp vào nút bên dưới để hoàn tất việc thiết lập Facebook
+                        Persistent
+                        menu:</div>
+                    <button type="button" class="btn btn-primary" id="submitFacebookProfile"> Submit </button>
+                </div>
+                <div class="mt-3">
+                    Kiểm tra bot của tôi trên Messenger (luôn hoạt động):👉 <a target="_blank"
+                        href="http://m.me/restaurantHaryPhamDev">m.me/restaurantHaryPhamDev</a>
+                </div>
+                <br />
+                <div><b>Con bot này có thể làm gì?</b>
+                    <ul>
+                        <li>Hiển thị lịch khám (theo bác sĩ, theo ngày, theo giờ).</li>
+                        <li>Đặt lịch</li>
+                        <li>Tự động hiểu tin nhắn là ngày giờ hoặc số điện thoại (sử dụng để đặt chỗ)
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <b>Bản cập nhật mới:</b>
+                    <ul>
+                        <li>
+                            Thêm nút: "Hướng dẫn sử dụng bot này".
+                        </li>
+                        <li>Bật/tắt tính năng nhập liệu cho bot. Đánh dấu cuộc trò chuyện đã đọc.</li>
+                        <li>Xử lý các câu có nghĩa là "chào mừng", "cảm ơn" và "tạm biệt". (hỗ trợ tiếng Anh, tiếng Tây
+                            Ban Nha,
+                            Đức và Pháp).
+                            Ví dụ: kiểm tra bot bằng các câu sau: What's up hoặc Hola hoặc Hallo hoặc Bonjour.</li>
+
+                    </ul>
+                </div>
+
+
+                <div class="mt-3">
+                    <b>Video giới thiệu cách thức hoạt động của bot này:</b>
+                    <div class="mt-2">
+                        <iframe width="853" height="480"
+                            src="https://www.youtube.com/embed/SIi3fGkfpk8?list=PLNOjHC_BXrfB8DcOCHtKPWPMl4t9PG5cI"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Load Facebook SDK for JavaScript --- Facebook Chat Plugin -->
     <div id="fb-root"></div>
     <script>
         window.fbAsyncInit = function () {
@@ -29,7 +96,8 @@
         }(document, 'script', 'facebook-jssdk'));</script>
 
     <!-- Your Chat Plugin code -->
-    <div class="fb-customerchat" attribution=setup_tool page_id="106149991223927" theme_color="#0084ff">
+    <div class="fb-customerchat" attribution=setup_tool page_id="<%= fbPageId %>">
+    </div>
     </div>
 </body>
 
