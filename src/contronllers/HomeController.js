@@ -1,4 +1,5 @@
 require("dotenv").config();
+import request from "request";
 
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
 
@@ -69,6 +70,177 @@ let getWebhook = (req, res) => {
         }
     }
 };
+
+// Handles messages events
+let handleMessage = async (sender_psid, message) => {
+    //checking quick reply
+    if (message && message.quick_reply && message.quick_reply.payload) {
+        if (message.quick_reply.payload === "SMALL" || message.quick_reply.payload === "MEDIUM" || message.quick_reply.payload === "LARGE") {
+            //asking about phone number
+            if (message.quick_reply.payload === "SMALL") user.quantity = "1-2 people";
+            if (message.quick_reply.payload === "MEDIUM") user.quantity = "2-5 people";
+            if (message.quick_reply.payload === "LARGE") user.quantity = "More than 5 people";
+            await chatBotService.markMessageSeen(sender_psid);
+            await chatBotService.sendTypingOn(sender_psid);
+            await chatBotService.sendMessageAskingPhoneNumber(sender_psid);
+            return;
+        }
+        // pay load is a phone number
+        if (message.quick_reply.payload !== " ") {
+            //done a reservation
+            // npm install --save moment to use moment
+            user.phoneNumber = message.quick_reply.payload;
+            user.createdAt = moment(Date.now()).zone("+07:00").format('MM/DD/YYYY h:mm A');
+            //send a notification to Telegram Group chat by Telegram bot.
+            await chatBotService.sendNotificationToTelegram(user);
+
+            // send messages to the user
+            await chatBotService.markMessageSeen(sender_psid);
+            await chatBotService.sendTypingOn(sender_psid);
+            await chatBotService.sendMessageDoneReserveTable(sender_psid);
+        }
+        return;
+    }
+
+    //handle text message
+    let entity = handleMessageWithEntities(message);
+    let locale = entity.locale;
+
+    await chatBotService.sendTypingOn(sender_psid);
+    await chatBotService.markMessageSeen(sender_psid);
+
+    if (entity.name === "wit$datetime:datetime") {
+        //handle quick reply message: asking about the party size , how many people
+        user.time = moment(entity.value).zone("+07:00").format('MM/DD/YYYY h:mm A');
+
+        await chatBotService.sendMessageAskingQuality(sender_psid);
+    } else if (entity.name === "wit$phone_number:phone_number") {
+        //handle quick reply message: done reserve table
+
+        user.phoneNumber = entity.value;
+        user.createdAt = moment(Date.now()).zone("+07:00").format('MM/DD/YYYY h:mm A');
+        //send a notification to Telegram Group chat by Telegram bot.
+        await chatBotService.sendNotificationToTelegram(user);
+
+        // send messages to the user
+        await chatBotService.sendMessageDoneReserveTable(sender_psid);
+
+    } else if (entity.name === "wit$greetings") {
+        await homepageService.sendResponseGreetings(sender_psid, locale);
+    } else if (entity.name === "wit$thanks") {
+        await homepageService.sendResponseThanks(sender_psid, locale);
+    } else if (entity.name === "wit$bye") {
+        await homepageService.sendResponseBye(sender_psid, locale);
+    } else {
+        //default reply
+        await chatBotService.sendMessageDefaultForTheBot(sender_psid);
+    }
+
+    //handle attachment message
+};
+
+let handlePostback = async (sender_psid, received_postback) => {
+    let response;
+    // Get the payload for the postback
+    let payload = received_postback.payload;
+    // Set the response based on the postback payload
+
+    await chatBotService.markMessageSeen(sender_psid);
+    switch (payload) {
+        case "GET_STARTED":
+        case "RESTART_CONVERSATION":
+            //get facebook username
+            let username = await chatBotService.getFacebookUsername(sender_psid);
+            user.name = username;
+            //send welcome response to users
+
+            await chatBotService.sendResponseWelcomeNewCustomer(username, sender_psid);
+            break;
+        case "MAIN_MENU":
+            //send main menu to users
+            await chatBotService.sendMainMenu(sender_psid);
+            break;
+        case "GUIDE_BOT":
+            await homepageService.sendGuideToUseBot(sender_psid);
+            break;
+        case "LUNCH_MENU":
+            await chatBotService.sendLunchMenu(sender_psid);
+            break;
+        case "DINNER_MENU":
+            await chatBotService.sendDinnerMenu(sender_psid);
+            break;
+        case "PUB_MENU":
+            await chatBotService.sendPubMenu(sender_psid);
+            break;
+        case "RESERVE_TABLE":
+            await chatBotService.handleReserveTable(sender_psid);
+            break;
+        case "SHOW_ROOMS":
+            await chatBotService.handleShowRooms(sender_psid);
+            break;
+        case "SHOW_ROOM_DETAIL":
+            await chatBotService.showRoomDetail(sender_psid);
+            break;
+        case "SHOW_APPETIZERS":
+            await chatBotService.sendAppetizer(sender_psid);
+            break;
+
+        case "SHOW_ENTREE_SALAD":
+            await chatBotService.sendSalad(sender_psid);
+            break;
+        case "SHOW_FISH":
+            await chatBotService.sendFish(sender_psid);
+            break;
+        case "SHOW_CLASSICS":
+            await chatBotService.sendClassic(sender_psid);
+            break;
+
+        case "BACK_TO_MAIN_MENU":
+            await chatBotService.goBackToMainMenu(sender_psid);
+            break;
+        case "BACK_TO_LUNCH_MENU":
+            await chatBotService.goBackToLunchMenu(sender_psid);
+            break;
+
+        case "yes":
+            response = { text: "Thank you!" };
+            callSendAPI(sender_psid, response);
+            break;
+        case "no":
+            response = { text: "Please try another image." };
+            callSendAPI(sender_psid, response);
+            break;
+        default:
+            console.log("Something wrong with switch case payload");
+    }
+    // Send the message to acknowledge the postback
+    // callSendAPI(sender_psid, response);
+};
+
+// Sends response messages via the Send API
+function callSendAPI(sender_psid, response) {
+    // Construct the message body
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        },
+        "message": response
+    };
+
+    // Send the HTTP request to the Messenger Platform
+    request({
+        "uri": "https://graph.facebook.com/v6.0/me/messages",
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+}
 
 module.exports = {
     getHomePage: getHomePage,
