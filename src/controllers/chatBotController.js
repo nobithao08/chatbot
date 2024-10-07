@@ -1,10 +1,18 @@
 require("dotenv").config();
 import request from "request";
+import moment from "moment";
+import chatBotService from "../services/chatBotService";
+import homepageService from "../services/homepageService";
 
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
-let getHomePage = (req, res) => {
-    return res.render('homepage.ejs');
+let user = {
+    name: "",
+    phoneNumber: "",
+    time: "",
+    quantity: "",
+    createdAt: ""
 };
 
 let postWebhook = (req, res) => {
@@ -139,6 +147,40 @@ let handleMessage = async (sender_psid, message) => {
     //handle attachment message
 };
 
+let handleMessageWithEntities = (message) => {
+    let entitiesArr = ["wit$datetime:datetime", "wit$phone_number:phone_number", "wit$greetings", "wit$thanks", "wit$bye"];
+    let entityChosen = "";
+    let data = {}; // data is an object saving value and name of the entity.
+    entitiesArr.forEach((name) => {
+        let entity = firstTrait(message.nlp, name.trim());
+        if (entity && entity.confidence > 0.8) {
+            entityChosen = name;
+            data.value = entity.value;
+        }
+    });
+
+    data.name = entityChosen;
+
+    // checking language
+    if (message && message.nlp && message.nlp.detected_locales) {
+        if (message.nlp.detected_locales[0]) {
+            let locale = message.nlp.detected_locales[0].locale;
+            data.locale = locale.substring(0, 2)
+        }
+
+    }
+    return data;
+};
+
+// function firstEntity(nlp, name) {
+//     return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
+// }
+
+function firstTrait(nlp, name) {
+    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
+}
+
+// Handles messaging_postbacks events
 let handlePostback = async (sender_psid, received_postback) => {
     let response;
     // Get the payload for the postback
@@ -243,7 +285,6 @@ function callSendAPI(sender_psid, response) {
 }
 
 module.exports = {
-    getHomePage: getHomePage,
     postWebhook: postWebhook,
     getWebhook: getWebhook
-}
+};
