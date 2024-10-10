@@ -1,4 +1,3 @@
-// /src/services/chatBotService.js
 import request from 'request';
 
 // Hàm gửi tin nhắn
@@ -15,14 +14,14 @@ let sendMessage = (sender_psid, response) => {
         json: request_body
     }, (err, res, body) => {
         if (!err) {
-            console.log('Message sent!');
+            console.log('Tin nhắn đã được gửi!');
         } else {
-            console.error('Unable to send message:', err);
+            console.error('Không thể gửi tin nhắn:', err);
         }
     });
 };
 
-// Hiển thị trạng thái typing
+// Hiển thị trạng thái đang gõ
 let sendTypingOn = (sender_psid) => {
     let request_body = {
         recipient: { id: sender_psid },
@@ -38,7 +37,7 @@ let sendTypingOn = (sender_psid) => {
         if (!err) {
             console.log('Typing on...');
         } else {
-            console.error('Unable to send typing action:', err);
+            console.error('Không thể gửi trạng thái gõ:', err);
         }
     });
 };
