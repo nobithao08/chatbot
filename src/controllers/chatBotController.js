@@ -1,6 +1,7 @@
 // /src/controllers/chatBotController.js
-import request from 'request';
+import chatBotService from '../services/chatBotService';
 
+// Xác thực webhook
 let getWebhook = (req, res) => {
     let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
@@ -18,6 +19,7 @@ let getWebhook = (req, res) => {
     }
 };
 
+// Xử lý khi nhận tin nhắn từ người dùng
 let postWebhook = (req, res) => {
     let body = req.body;
 
@@ -28,8 +30,6 @@ let postWebhook = (req, res) => {
 
             if (webhook_event.message) {
                 handleMessage(sender_psid, webhook_event.message);
-            } else if (webhook_event.postback) {
-                handlePostback(sender_psid, webhook_event.postback);
             }
         });
 
@@ -39,47 +39,16 @@ let postWebhook = (req, res) => {
     }
 };
 
+// Xử lý tin nhắn và trả lời
 let handleMessage = (sender_psid, received_message) => {
-    let response;
-
     if (received_message.text) {
-        response = { text: `You sent the message: "${received_message.text}".` };
+        // Phản hồi lại bất kỳ tin nhắn nào
+        let response = { text: `Bạn đã gửi: "${received_message.text}"` };
+
+        // Gửi trạng thái "typing_on" và gửi tin nhắn trả lời
+        chatBotService.sendTypingOn(sender_psid);
+        chatBotService.sendMessage(sender_psid, response);
     }
-
-    sendMessage(sender_psid, response);
-};
-
-let handlePostback = (sender_psid, received_postback) => {
-    let response;
-    let payload = received_postback.payload;
-
-    if (payload === 'yes') {
-        response = { text: 'Thanks!' };
-    } else if (payload === 'no') {
-        response = { text: 'Oops, try sending another message.' };
-    }
-
-    sendMessage(sender_psid, response);
-};
-
-let sendMessage = (sender_psid, response) => {
-    let request_body = {
-        recipient: { id: sender_psid },
-        message: response
-    };
-
-    request({
-        uri: 'https://graph.facebook.com/v6.0/me/messages',
-        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-        method: 'POST',
-        json: request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('Message sent!');
-        } else {
-            console.error('Unable to send message:', err);
-        }
-    });
 };
 
 export default {
