@@ -1,9 +1,14 @@
 import chatBotService from '../services/chatBotService';
 
 let predefinedResponses = {
-    "câu hỏi này": "Câu trả lời bạn mong muốn",
-    "tên bạn là gì?": "Tôi là chatbot của bạn!",
-    "bạn có thể giúp gì?": "Tôi có thể giúp bạn đặt lịch khám, cung cấp thông tin về bác sĩ, và hơn thế nữa!"
+    "tôi muốn đặt lịch khám": "Bạn có thể đặt lịch khám qua link sau: https://your-domain.com/booking",
+    "lịch khám bác sĩ a còn trống không?": "Bác sĩ A hiện có lịch khám vào thứ 3 và thứ 5 tuần này. Bạn có thể đặt lịch qua link: https://your-domain.com/booking",
+    "bác sĩ nào có lịch khám vào ngày mai?": "Hiện tại bác sĩ B và bác sĩ C có lịch khám vào ngày mai. Bạn có thể đặt lịch tại đây: https://your-domain.com/booking",
+    "tôi có thể khám bệnh vào ngày nào?": "Bạn có thể chọn ngày phù hợp để đặt lịch khám qua link: https://your-domain.com/booking",
+    "cách đặt lịch khám thế nào?": "Bạn chỉ cần chọn bác sĩ, chọn thời gian khám và nhập thông tin cá nhân tại đây: https://your-domain.com/booking",
+    "làm sao để hủy lịch khám?": "Bạn có thể hủy lịch khám qua ứng dụng hoặc liên hệ trực tiếp phòng khám qua hotline.",
+    "chi phí khám bệnh là bao nhiêu?": "Chi phí khám bệnh phụ thuộc vào bác sĩ và dịch vụ. Vui lòng truy cập https://your-domain.com/pricing để biết thêm chi tiết.",
+    "địa chỉ phòng khám ở đâu?": "Phòng khám của chúng tôi tại 123 Đường ABC, Quận XYZ, Thành phố DEF."
 };
 
 // Xử lý webhook khi nhận tin nhắn
