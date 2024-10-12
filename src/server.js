@@ -3,7 +3,7 @@ import express from "express";
 import configViewEngine from "./config/viewEngine";
 import initWebRoutes from "./routes/web";
 import bodyParser from "body-parser";
-import initCronJob from "./config/cronJob";
+// import initCronJob from "./config/cronJob";
 
 let app = express();
 
@@ -18,7 +18,7 @@ configViewEngine(app);
 initWebRoutes(app);
 
 //init cron job
-initCronJob();
+// initCronJob();
 
 let port = process.env.PORT || 8080;
 
