@@ -1,5 +1,19 @@
 require("dotenv").config();
 import request from "request";
+import moment from "moment";
+// import chatBotService from "../services/chatBotService";
+// import homepageService from "../services/homepageService";
+
+const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
+let user = {
+    name: "",
+    phoneNumber: "",
+    time: "",
+    quantity: "",
+    createdAt: ""
+};
 
 let postWebhook = (req, res) => {
     // Parse the request body from the POST
@@ -41,7 +55,7 @@ let postWebhook = (req, res) => {
 
 let getWebhook = (req, res) => {
     // Your verify token. Should be a random string.
-    let VERIFY_TOKEN = process.env.MY_VERIFY_FB_TOKEN;
+    let VERIFY_TOKEN = MY_VERIFY_TOKEN;
 
     // Parse the query params
     let mode = req.query['hub.mode'];
@@ -66,68 +80,129 @@ let getWebhook = (req, res) => {
 };
 
 // Handles messages events
-// function handleMessage(sender_psid, received_message) {
-//     let response;
-//
-//     // Check if the message contains text
-//     if (received_message.text) {
-//
-//         // Create the payload for a basic text message
-//         response = {
-//             "text": `You sent the message: "${received_message.text}". Now send me an image!`
+let handleMessage = async (sender_psid, message) => {
+    let response;
+
+    if (message.text) {
+        response = {
+            "text": `You send the message: "${message.text}". Now send me an image!`
+        }
+    }
+
+    callSendAPI(sender_psid, response);
+};
+
+// let handleMessageWithEntities = (message) => {
+//     let entitiesArr = ["wit$datetime:datetime", "wit$phone_number:phone_number", "wit$greetings", "wit$thanks", "wit$bye"];
+//     let entityChosen = "";
+//     let data = {}; // data is an object saving value and name of the entity.
+//     entitiesArr.forEach((name) => {
+//         let entity = firstTrait(message.nlp, name.trim());
+//         if (entity && entity.confidence > 0.8) {
+//             entityChosen = name;
+//             data.value = entity.value;
 //         }
-//     } else if (received_message.attachments) {
-//
-//     // Gets the URL of the message attachment
-//     let attachment_url = received_message.attachments[0].payload.url;
-//         response = {
-//             "attachment": {
-//                 "type": "template",
-//                 "payload": {
-//                     "template_type": "generic",
-//                     "elements": [{
-//                         "title": "Is this the right picture?",
-//                         "subtitle": "Tap a button to answer.",
-//                         "image_url": attachment_url,
-//                         "buttons": [
-//                             {
-//                                 "type": "postback",
-//                                 "title": "Yes!",
-//                                 "payload": "yes",
-//                             },
-//                             {
-//                                 "type": "postback",
-//                                 "title": "No!",
-//                                 "payload": "no",
-//                             }
-//                         ],
-//                     }]
-//                 }
-//             }
+//     });
+
+//     data.name = entityChosen;
+
+//     // checking language
+//     if (message && message.nlp && message.nlp.detected_locales) {
+//         if (message.nlp.detected_locales[0]) {
+//             let locale = message.nlp.detected_locales[0].locale;
+//             data.locale = locale.substring(0, 2)
 //         }
-//
+
+//     }
+//     return data;
+// };
+
+// function firstEntity(nlp, name) {
+//     return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
 // }
-//
-// // Sends the response message
-//     callSendAPI(sender_psid, response);
+
+// function firstTrait(nlp, name) {
+//     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 // }
 
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
+let handlePostback = async (sender_psid, received_postback) => {
     let response;
-
     // Get the payload for the postback
     let payload = received_postback.payload;
-
     // Set the response based on the postback payload
-    if (payload === 'yes') {
-        response = { "text": "Thanks!" }
-    } else if (payload === 'no') {
-        response = { "text": "Oops, try sending another image." }
+
+    await chatBotService.markMessageSeen(sender_psid);
+    switch (payload) {
+        case "GET_STARTED":
+        case "RESTART_CONVERSATION":
+            //get facebook username
+            let username = await chatBotService.getFacebookUsername(sender_psid);
+            user.name = username;
+            //send welcome response to users
+
+            await chatBotService.sendResponseWelcomeNewCustomer(username, sender_psid);
+            break;
+        case "MAIN_MENU":
+            //send main menu to users
+            await chatBotService.sendMainMenu(sender_psid);
+            break;
+        case "GUIDE_BOT":
+            await homepageService.sendGuideToUseBot(sender_psid);
+            break;
+        case "LUNCH_MENU":
+            await chatBotService.sendLunchMenu(sender_psid);
+            break;
+        case "DINNER_MENU":
+            await chatBotService.sendDinnerMenu(sender_psid);
+            break;
+        case "PUB_MENU":
+            await chatBotService.sendPubMenu(sender_psid);
+            break;
+        case "RESERVE_TABLE":
+            await chatBotService.handleReserveTable(sender_psid);
+            break;
+        case "SHOW_ROOMS":
+            await chatBotService.handleShowRooms(sender_psid);
+            break;
+        case "SHOW_ROOM_DETAIL":
+            await chatBotService.showRoomDetail(sender_psid);
+            break;
+        case "SHOW_APPETIZERS":
+            await chatBotService.sendAppetizer(sender_psid);
+            break;
+
+        case "SHOW_ENTREE_SALAD":
+            await chatBotService.sendSalad(sender_psid);
+            break;
+        case "SHOW_FISH":
+            await chatBotService.sendFish(sender_psid);
+            break;
+        case "SHOW_CLASSICS":
+            await chatBotService.sendClassic(sender_psid);
+            break;
+
+        case "BACK_TO_MAIN_MENU":
+            await chatBotService.goBackToMainMenu(sender_psid);
+            break;
+        case "BACK_TO_LUNCH_MENU":
+            await chatBotService.goBackToLunchMenu(sender_psid);
+            break;
+
+        case "yes":
+            response = { text: "Thank you!" };
+            callSendAPI(sender_psid, response);
+            break;
+        case "no":
+            response = { text: "Please try another image." };
+            callSendAPI(sender_psid, response);
+            break;
+        default:
+            console.log("Something wrong with switch case payload");
     }
     // Send the message to acknowledge the postback
-    callSendAPI(sender_psid, response);
-}
+    // callSendAPI(sender_psid, response);
+};
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
@@ -136,114 +211,23 @@ function callSendAPI(sender_psid, response) {
         "recipient": {
             "id": sender_psid
         },
-        "message": { "text": response }
+        "message": response
     };
 
     // Send the HTTP request to the Messenger Platform
     request({
-        "uri": "https://graph.facebook.com/v7.0/me/messages",
-        "qs": { "access_token": process.env.FB_PAGE_TOKEN },
+        "uri": "https://graph.facebook.com/v6.0/me/messages",
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
         if (!err) {
-            console.log('message sent!');
+            console.log('message sent!')
         } else {
             console.error("Unable to send message:" + err);
         }
     });
 }
-
-// function firstTrait(nlp, name) {
-//     return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
-// }
-
-function firstTrait(nlp, name) {
-    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
-}
-
-function handleMessage(sender_psid, message) {
-    //handle message for react, like press like button
-    // id like button: sticker_id 369239263222822
-
-    if (message && message.attachments && message.attachments[0].payload) {
-        callSendAPI(sender_psid, "Thank you for watching my video !!!");
-        callSendAPIWithTemplate(sender_psid);
-        return;
-    }
-
-    let entitiesArr = ["wit$greetings", "wit$thanks", "wit$bye"];
-    let entityChosen = "";
-    entitiesArr.forEach((name) => {
-        let entity = firstTrait(message.nlp, name);
-        if (entity && entity.confidence > 0.8) {
-            entityChosen = name;
-        }
-    });
-
-    if (entityChosen === "") {
-        //default
-        callSendAPI(sender_psid, `The bot is needed more training, try to say "thanks a lot" or "hi" to the bot`);
-    } else {
-        if (entityChosen === "wit$greetings") {
-            //send greetings message
-            callSendAPI(sender_psid, 'Hi there! This bot is created by Hary Pham. Watch more videos on HaryPhamDev Channel!');
-        }
-        if (entityChosen === "wit$thanks") {
-            //send thanks message
-            callSendAPI(sender_psid, `You 're welcome!`);
-        }
-        if (entityChosen === "wit$bye") {
-            //send bye message
-            callSendAPI(sender_psid, 'bye-bye!');
-        }
-    }
-}
-
-let callSendAPIWithTemplate = (sender_psid) => {
-    // document fb message template
-    // https://developers.facebook.com/docs/messenger-platform/send-messages/templates
-    let body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "message": {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [
-                        {
-                            "title": "Want to build sth awesome?",
-                            "image_url": "https://www.nexmo.com/wp-content/uploads/2018/10/build-bot-messages-api-768x384.png",
-                            "subtitle": "Watch more videos on my youtube channel ^^",
-                            "buttons": [
-                                {
-                                    "type": "web_url",
-                                    "url": "https://bit.ly/subscribe-haryphamdev",
-                                    "title": "Watch now"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            }
-        }
-    };
-
-    request({
-        "uri": "https://graph.facebook.com/v6.0/me/messages",
-        "qs": { "access_token": process.env.FB_PAGE_TOKEN },
-        "method": "POST",
-        "json": body
-    }, (err, res, body) => {
-        if (!err) {
-            // console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
-};
 
 module.exports = {
     postWebhook: postWebhook,
