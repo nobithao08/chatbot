@@ -1,4 +1,4 @@
-/*stick footer to bottom */
+/* stick footer to bottom
 body {
     display: flex;
     flex-direction: column;
@@ -15,4 +15,4 @@ a, a:hover, a:focus {
 .title {
     font-weight: 600;
     font-size: 30px;
-}
+} */
