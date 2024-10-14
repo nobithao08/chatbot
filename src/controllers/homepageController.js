@@ -1,160 +1,167 @@
 require("dotenv").config();
+import request from "request";
 
-let getHomePage = (req, res) => {
-    let facebookAppId = process.env.FACEBOOK_APP_ID;
-    return res.render("homepage.ejs", {
-        facebookAppId: facebookAppId
-    })
+const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
+let getHomepage = (req, res) => {
+    return res.render("homepage.ejs");
 };
 
 let getWebhook = (req, res) => {
-    // Token xác thực
+
+    // Your verify token. Should be a random string.
     let VERIFY_TOKEN = MY_VERIFY_TOKEN;
 
-    // Lấy các tham số từ query string
+    // Parse the query params
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
     let challenge = req.query['hub.challenge'];
 
-    // Kiểm tra token và mode
+    // Checks if a token and mode is in the query string of the request
     if (mode && token) {
-        // Nếu token và mode hợp lệ, trả về challenge để xác minh webhook
+
+        // Checks the mode and token sent is correct
         if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+
+            // Responds with the challenge token from the request
             console.log('WEBHOOK_VERIFIED');
             res.status(200).send(challenge);
+
         } else {
-            // Token không hợp lệ thì trả về lỗi 403
+            // Responds with '403 Forbidden' if verify tokens do not match
             res.sendStatus(403);
         }
-    } else {
-        res.sendStatus(404);
     }
 };
 
-
 let postWebhook = (req, res) => {
+    // Parse the request body from the POST
     let body = req.body;
 
-    // Kiểm tra xem có phải yêu cầu từ chatbot không
-    if (body.object === 'web_chat') {
-        body.entry.forEach(function (entry) {
-            let webhook_event = entry.messaging[0];
-            let sender_psid = webhook_event.sender.id;
+    // Check the webhook event is from a Page subscription
+    if (body.object === 'page') {
 
+        // Iterate over each entry - there may be multiple if batched
+        body.entry.forEach(function (entry) {
+
+            // Gets the body of the webhook event
+            let webhook_event = entry.messaging[0];
+            console.log(webhook_event);
+
+
+            // Get the sender PSID
+            let sender_psid = webhook_event.sender.id;
+            console.log('Sender PSID: ' + sender_psid);
+
+            // Check if the event is a message or postback and
+            // pass the event to the appropriate handler function
             if (webhook_event.message) {
                 handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             }
+
         });
 
+        // Return a '200 OK' response to all events
         res.status(200).send('EVENT_RECEIVED');
+
     } else {
+        // Return a '404 Not Found' if event is not from a page subscription
         res.sendStatus(404);
     }
+
 };
 
-// Xử lý sự kiện khi người dùng gửi tin nhắn
-let handleMessage = async (sender_psid, received_message) => {
+// Handles messages events
+let handleMessage = (sender_psid, received_message) => {
     let response;
 
-    // Nếu tin nhắn chứa văn bản
+    // Checks if the message contains text
     if (received_message.text) {
-        switch (received_message.text.toLowerCase()) {
-            case "đặt lịch":
-                response = {
-                    "text": "Vui lòng cung cấp thông tin của bạn: Họ tên, Số điện thoại, và Bác sĩ bạn muốn gặp."
-                };
-                break;
-            case "bác sĩ":
-                response = {
-                    "text": "Chọn bác sĩ bạn muốn đặt lịch: 1. Bác sĩ A, 2. Bác sĩ B"
-                };
-                break;
-            default:
-                response = {
-                    "text": `Bạn đã gửi: "${received_message.text}". Vui lòng nhập 'đặt lịch' để bắt đầu quá trình đặt lịch khám.`
-                };
-                break;
+        // Create the payload for a basic text message, which
+        // will be added to the body of our request to the Send API
+        response = {
+            "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
         }
     } else if (received_message.attachments) {
+        // Get the URL of the message attachment
+        let attachment_url = received_message.attachments[0].payload.url;
         response = {
-            "text": "Hiện tại chúng tôi không hỗ trợ hình ảnh. Vui lòng nhập thông tin cần thiết để đặt lịch khám."
-        };
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                        "title": "Is this the right picture?",
+                        "subtitle": "Tap a button to answer.",
+                        "image_url": attachment_url,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "Yes!",
+                                "payload": "yes",
+                            },
+                            {
+                                "type": "postback",
+                                "title": "No!",
+                                "payload": "no",
+                            }
+                        ],
+                    }]
+                }
+            }
+        }
     }
 
-    // Gửi phản hồi
-    await sendMessage(sender_psid, response);
+    // Send the response message
+    callSendAPI(sender_psid, response);
 };
 
-// Xử lý sự kiện postback từ người dùng
-let handlePostback = async (sender_psid, received_postback) => {
-    let payload = received_postback.payload;
+// Handles messaging_postbacks events
+let handlePostback = (sender_psid, received_postback) => {
     let response;
 
-    switch (payload) {
-        case "GET_STARTED":
-            response = { "text": "Chào mừng bạn đến với dịch vụ đặt lịch khám. Nhập 'đặt lịch' để bắt đầu." };
-            break;
-        case "RESTART_CONVERSATION":
-            response = { "text": "Cuộc trò chuyện đã được khởi động lại. Nhập 'đặt lịch' để tiếp tục." };
-            break;
-        default:
-            response = { "text": "Vui lòng nhập 'đặt lịch' để bắt đầu quá trình đặt lịch." };
-            break;
+    // Get the payload for the postback
+    let payload = received_postback.payload;
+
+    // Set the response based on the postback payload
+    if (payload === 'yes') {
+        response = { "text": "Thanks!" }
+    } else if (payload === 'no') {
+        response = { "text": "Oops, try sending another image." }
     }
-
-    await sendMessage(sender_psid, response);
+    // Send the message to acknowledge the postback
+    callSendAPI(sender_psid, response);
 };
 
-// Hàm gửi tin nhắn (giả lập việc gửi tin)
-let sendMessage = async (psid, response) => {
-    // Tùy thuộc vào framework web chat đang sử dụng, gửi phản hồi đến client
-    console.log(`Sending message to PSID ${psid}:`, response.text);
+// Sends response messages via the Send API
+let callSendAPI = (sender_psid, response) => {
+    // Construct the message body
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        },
+        "message": response
+    };
+
+    // Send the HTTP request to the Messenger Platform
+    request({
+        "uri": "https://graph.facebook.com/v6.0/me/messages",
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
 };
-
-// Thiết lập cấu hình và các route
-let handleSetupProfile = async (req, res) => {
-    // Thiết lập chatbot hoặc các thông tin cần thiết
-    return res.redirect("/");
-};
-
-let getSetupProfilePage = (req, res) => {
-    return res.render("profile.ejs");
-};
-
-let getInfoOrderPage = (req, res) => {
-    return res.render("infoOrder.ejs");
-};
-
-let setInfoOrder = async (req, res) => {
-    // Xử lý khi người dùng nhập thông tin đặt lịch
-    try {
-        let customerName = req.body.customerName || "Khách hàng chưa cung cấp tên";
-
-        let response = {
-            "text": `Thông tin lịch hẹn: 
-            \nTên khách hàng: ${customerName}
-            \nSố điện thoại: ${req.body.phoneNumber}
-            \nBác sĩ: ${req.body.doctorName}`
-        };
-
-        await sendMessage(req.body.psid, response);
-
-        return res.status(200).json({
-            message: "Đặt lịch thành công"
-        });
-    } catch (e) {
-        console.log(e);
-    }
-};
-
 module.exports = {
-    getHomePage,
-    getWebhook,
-    postWebhook,
-    handleSetupProfile,
-    getSetupProfilePage,
-    getInfoOrderPage,
-    setInfoOrder
+    getHomepage: getHomepage,
+    getWebhook: getWebhook,
+    postWebhook: postWebhook
 };

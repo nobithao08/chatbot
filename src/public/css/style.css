@@ -1,18 +1,8 @@
-/* stick footer to bottom
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-.fix-height {
-    flex: 1;
+    margin:30px;
 }
 
-a, a:hover, a:focus {
-    text-decoration: none;
+h3 {
+    font-size: 18px;
+    font-weight: normal;
 }
-
-.title {
-    font-weight: 600;
-    font-size: 30px;
-} */

@@ -1,7 +1,7 @@
 import express from "express";
 
 /*
-Config view engine for node app
+config view engine for app
  */
 
 let configViewEngine = (app) => {
