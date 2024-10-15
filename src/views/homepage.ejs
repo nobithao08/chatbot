@@ -14,26 +14,31 @@
         </form>
 
         <!-- Load Facebook SDK for JavaScript --- Facebook Chat Plugin -->
+        <!-- Load Facebook SDK for JavaScript --- Facebook Chat Plugin -->
         <div id="fb-root"></div>
         <script>
                 window.fbAsyncInit = function () {
                         FB.init({
+                                appId: "1065655205124699", // Thay YOUR_APP_ID bằng app_id thực tế của bạn
                                 xfbml: true,
-                                version: 'v6.0'
+                                version: 'v13.0' // Cập nhật phiên bản mới nhất
                         });
                 };
                 (function (d, s, id) {
                         var js, fjs = d.getElementsByTagName(s)[0];
                         if (d.getElementById(id)) return;
                         js = d.createElement(s); js.id = id;
-                        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+                        js.src = 'https://connect.facebook.net/en_US/sdk.js'; // Đảm bảo sử dụng SDK chính
                         fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));</script>
+                }(document, 'script', 'facebook-jssdk'));
+        </script>
 
         <!-- Your Chat Plugin code -->
-        <div class="fb-customerchat" attribution=setup_tool page_id="1065655205124699">
+        <div class="fb-customerchat" attribution="setup_tool" page_id="1065655205124699" theme_color="#0084ff"
+                logged_in_greeting="Chào bạn! Có gì tôi có thể giúp bạn?"
+                logged_out_greeting="Chào bạn! Bạn có thể hỏi tôi bất cứ điều gì.">
         </div>
-        </div>
+
 </body>
 
 </html>
