@@ -1,5 +1,6 @@
 require("dotenv").config();
 import request from "request";
+import chatBotService from "../services/chatBotService";
 
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -35,88 +36,39 @@ let getWebhook = (req, res) => {
     }
 };
 
-let postWebhook = (req, res) => {
-    // Parse the request body from the POST
-    let body = req.body;
+// Xử lý tin nhắn từ người dùng
+let handleMessage = async (sender_psid, received_message) => {
+    let message = received_message.text.toLowerCase(); // Chuyển tin nhắn thành chữ thường
 
-    // Check the webhook event is from a Page subscription
-    if (body.object === 'page') {
+    // Các từ khóa liên quan đến đặt lịch khám
+    const bookingKeywords = ["đặt lịch", "cách đặt lịch", "đặt lịch khám", "tôi muốn đặt lịch"];
 
-        // Iterate over each entry - there may be multiple if batched
-        body.entry.forEach(function (entry) {
-
-            // Gets the body of the webhook event
-            let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
-
-
-            // Get the sender PSID
-            let sender_psid = webhook_event.sender.id;
-            console.log('Sender PSID: ' + sender_psid);
-
-            // Check if the event is a message or postback and
-            // pass the event to the appropriate handler function
-            if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
-            } else if (webhook_event.postback) {
-                handlePostback(sender_psid, webhook_event.postback);
-            }
-
-        });
-
-        // Return a '200 OK' response to all events
-        res.status(200).send('EVENT_RECEIVED');
-
+    // Kiểm tra nếu tin nhắn chứa từ khóa liên quan đến đặt lịch khám
+    if (bookingKeywords.some(keyword => message.includes(keyword))) {
+        await chatBotService.handleBookingQuery(sender_psid);
     } else {
-        // Return a '404 Not Found' if event is not from a page subscription
-        res.sendStatus(404);
+        await chatBotService.sendMessage(sender_psid, "Xin lỗi, tôi không hiểu yêu cầu của bạn.");
     }
-
 };
 
-// Handles messages events
-let handleMessage = (sender_psid, received_message) => {
-    let response;
+// Xử lý webhook
+let postWebhook = (req, res) => {
+    let body = req.body;
 
-    // Checks if the message contains text
-    if (received_message.text) {
-        // Create the payload for a basic text message, which
-        // will be added to the body of our request to the Send API
-        response = {
-            "text": `Bạn đã gửi tin nhắn: "${received_message.text}". Bây giờ hãy gửi cho tôi tệp đính kèm!`
-        }
-    } else if (received_message.attachments) {
-        // Get the URL of the message attachment
-        let attachment_url = received_message.attachments[0].payload.url;
-        response = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                        "title": "Đây có phải là bức ảnh bạn gửi không?",
-                        "subtitle": "Nhấn vào nút để trả lời.",
-                        "image_url": attachment_url,
-                        "buttons": [
-                            {
-                                "type": "postback",
-                                "title": "Phải!",
-                                "payload": "yes",
-                            },
-                            {
-                                "type": "postback",
-                                "title": "Không!",
-                                "payload": "no",
-                            }
-                        ],
-                    }]
-                }
+    if (body.object === 'page') {
+        body.entry.forEach(function (entry) {
+            let webhook_event = entry.messaging[0];
+            let sender_psid = webhook_event.sender.id;
+
+            if (webhook_event.message) {
+                handleMessage(sender_psid, webhook_event.message);
             }
-        }
-    }
+        });
 
-    // Send the response message
-    callSendAPI(sender_psid, response);
+        res.status(200).send('EVENT_RECEIVED');
+    } else {
+        res.sendStatus(404);
+    }
 };
 
 // Handles messaging_postbacks events
