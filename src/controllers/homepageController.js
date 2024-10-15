@@ -52,7 +52,6 @@ let handleMessage = (sender_psid, received_message) => {
     let response;
 
     const bookingKeywords = ["đặt lịch", "cách đặt lịch", "đặt lịch khám", "tôi muốn đặt lịch"];
-    const doctorKeywords = ["bác sĩ", "tìm bác sĩ", "xem bác sĩ"];
     const legPainKeywords = ["đau chân", "đau xương khớp", "đau cơ", "vấn đề chân"];
 
     // Danh sách bác sĩ với tên và đường dẫn chi tiết
@@ -66,24 +65,25 @@ let handleMessage = (sender_psid, received_message) => {
     if (received_message.text) {
         let messageText = received_message.text.toLowerCase();
 
-        if (bookingKeywords.some(keyword => messageText.includes(keyword))) {
-            response = { "text": "Bạn có thể đặt lịch khám tại đường dẫn sau: https://nobithao-fe-bookingcare.vercel.app/home" };
-        } else if (doctorKeywords.some(keyword => messageText.includes(keyword))) {
-            response = { "text": "Bạn có thể xem tất cả các bác sĩ tại đường dẫn sau: https://nobithao-fe-bookingcare.vercel.app/all-doctors" };
-        } else if (legPainKeywords.some(keyword => messageText.includes(keyword))) {
-            response = { "text": "Bạn có thể tìm hiểu thêm về khoa Cơ Xương Khớp tại đường dẫn sau: https://nobithao-fe-bookingcare.vercel.app/detail-specialty/1" };
-        } else {
-            // Kiểm tra xem có tên bác sĩ cụ thể nào trong tin nhắn hay không
-            let doctorFound = false;
-            for (let doctor in doctorsList) {
-                if (messageText.includes(doctor)) {
-                    response = { "text": `Đây là trang thông tin của ${doctor}: ${doctorsList[doctor]}` };
-                    doctorFound = true;
-                    break;
-                }
+        // Kiểm tra xem có tên bác sĩ cụ thể nào trong tin nhắn hay không
+        let doctorFound = false;
+        for (let doctor in doctorsList) {
+            if (messageText.includes(doctor)) {
+                response = { "text": `Đây là trang thông tin của ${doctor}: ${doctorsList[doctor]}` };
+                doctorFound = true;
+                break;
             }
+        }
 
-            if (!doctorFound) {
+        // Nếu không tìm thấy tên bác sĩ cụ thể, tiếp tục kiểm tra các từ khóa khác
+        if (!doctorFound) {
+            if (bookingKeywords.some(keyword => messageText.includes(keyword))) {
+                response = { "text": "Bạn có thể đặt lịch khám tại đường dẫn sau: https://nobithao-fe-bookingcare.vercel.app/home" };
+            } else if (messageText.includes("bác sĩ")) { // Kiểm tra từ khóa chung "bác sĩ" nếu không có tên bác sĩ cụ thể
+                response = { "text": "Bạn có thể xem tất cả các bác sĩ tại đường dẫn sau: https://nobithao-fe-bookingcare.vercel.app/all-doctors" };
+            } else if (legPainKeywords.some(keyword => messageText.includes(keyword))) {
+                response = { "text": "Bạn có thể tìm hiểu thêm về khoa Cơ Xương Khớp tại đường dẫn sau: https://bookingcare.vn/khoa-co-xuong-khop" };
+            } else {
                 response = { "text": "Xin lỗi, tôi không hiểu yêu cầu của bạn. Bạn có thể tìm hỗ trợ tại: https://bookingcare.vn/ho-tro" };
             }
         }
