@@ -166,7 +166,7 @@ let setupProfile = async (req, res) => {
     let request_body = {
         "get_started": { "payload": "GET_STARTED" },
         "whitelisted_domains": ["https://chatbot-3iqe.onrender.com/"]
-    };
+    }
 
     // Send the HTTP request to the Messenger Platform
     request({
@@ -174,17 +174,16 @@ let setupProfile = async (req, res) => {
         "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
-    }, (err, response, body) => {
-        if (!err && response.statusCode === 200) {
-            console.log('Setup user profile succeeds!');
-            res.status(200).send('Setup successful');
+    }, (err, res, body) => {
+        console.log(body)
+        if (!err) {
+            console.log('Setup user profile succeeds!')
         } else {
-            console.error("Unable to setup user: " + (err ? err : body));
-            res.status(500).send('Setup failed');
+            console.error("Unable to setup user:" + err);
         }
     });
+    return res.send('Setup user profile succeeds!');
 };
-
 
 module.exports = {
     getHomepage: getHomepage,
