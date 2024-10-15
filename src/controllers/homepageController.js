@@ -1,6 +1,6 @@
 require("dotenv").config();
 import request from "request";
-import chatBotService from "../services/chatBotService"; // Giả sử bạn có tệp service này
+import chatBotService from "../services/chatBotService";
 
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -55,6 +55,14 @@ let handleMessage = (sender_psid, received_message) => {
     const doctorKeywords = ["bác sĩ", "tìm bác sĩ", "xem bác sĩ"];
     const legPainKeywords = ["đau chân", "đau xương khớp", "đau cơ", "vấn đề chân"];
 
+    // Danh sách bác sĩ với tên và đường dẫn chi tiết
+    const doctorsList = {
+        "bác sĩ hà": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/23",
+        "bác sĩ nguyễn": "https://nobithao-fe-bookingcare.vercel.app/doctors/nguyen",
+        "bác sĩ lê": "https://nobithao-fe-bookingcare.vercel.app/doctors/le",
+        // Thêm các bác sĩ khác tại đây
+    };
+
     if (received_message.text) {
         let messageText = received_message.text.toLowerCase();
 
@@ -63,9 +71,21 @@ let handleMessage = (sender_psid, received_message) => {
         } else if (doctorKeywords.some(keyword => messageText.includes(keyword))) {
             response = { "text": "Bạn có thể xem tất cả các bác sĩ tại đường dẫn sau: https://nobithao-fe-bookingcare.vercel.app/all-doctors" };
         } else if (legPainKeywords.some(keyword => messageText.includes(keyword))) {
-            response = { "text": "Bạn có thể tìm hiểu thêm về khoa Cơ Xương Khớp tại đường dẫn sau: https://bookingcare.vn/khoa-co-xuong-khop" };
+            response = { "text": "Bạn có thể tìm hiểu thêm về khoa Cơ Xương Khớp tại đường dẫn sau: https://nobithao-fe-bookingcare.vercel.app/detail-specialty/1" };
         } else {
-            response = { "text": "Xin lỗi, tôi không hiểu yêu cầu của bạn. Bạn có thể tìm hỗ trợ tại: https://bookingcare.vn/ho-tro" };
+            // Kiểm tra xem có tên bác sĩ cụ thể nào trong tin nhắn hay không
+            let doctorFound = false;
+            for (let doctor in doctorsList) {
+                if (messageText.includes(doctor)) {
+                    response = { "text": `Đây là trang thông tin của ${doctor}: ${doctorsList[doctor]}` };
+                    doctorFound = true;
+                    break;
+                }
+            }
+
+            if (!doctorFound) {
+                response = { "text": "Xin lỗi, tôi không hiểu yêu cầu của bạn. Bạn có thể tìm hỗ trợ tại: https://bookingcare.vn/ho-tro" };
+            }
         }
     } else if (received_message.attachments) {
         let attachment_url = received_message.attachments[0].payload.url;
