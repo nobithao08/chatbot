@@ -83,7 +83,7 @@ let handleMessage = (sender_psid, received_message) => {
         // Create the payload for a basic text message, which
         // will be added to the body of our request to the Send API
         response = {
-            "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+            "text": `Bạn đã gửi tin nhắn: "${received_message.text}". Bây giờ hãy gửi cho tôi tệp đính kèm!`
         }
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
@@ -160,8 +160,32 @@ let callSendAPI = (sender_psid, response) => {
         }
     });
 };
+
+let setupProfile = async (req, res) => {
+    // Construct the message body
+    let request_body = {
+        "get_started": { "payload": "GET_STARTED" },
+        "whitelisted_domains": ["https://chatbot-3iqe.onrender.com/"]
+    }
+
+    // Send the HTTP request to the Messenger Platform
+    request({
+        "uri": `https://graph.facebook.com/v9.0/me/messager_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('Setup user profile succeeds!')
+        } else {
+            console.error("Unable to setup user:" + err);
+        }
+    });
+};
+
 module.exports = {
     getHomepage: getHomepage,
     getWebhook: getWebhook,
-    postWebhook: postWebhook
+    postWebhook: postWebhook,
+    setupProfile: setupProfile,
 };
