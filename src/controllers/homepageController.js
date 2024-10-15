@@ -94,18 +94,18 @@ let handleMessage = (sender_psid, received_message) => {
                 "payload": {
                     "template_type": "generic",
                     "elements": [{
-                        "title": "Is this the right picture?",
-                        "subtitle": "Tap a button to answer.",
+                        "title": "Đây có phải là bức ảnh bạn gửi không?",
+                        "subtitle": "Nhấn vào nút để trả lời.",
                         "image_url": attachment_url,
                         "buttons": [
                             {
                                 "type": "postback",
-                                "title": "Yes!",
+                                "title": "Phải!",
                                 "payload": "yes",
                             },
                             {
                                 "type": "postback",
-                                "title": "No!",
+                                "title": "Không!",
                                 "payload": "no",
                             }
                         ],
@@ -128,9 +128,12 @@ let handlePostback = (sender_psid, received_postback) => {
 
     // Set the response based on the postback payload
     if (payload === 'yes') {
-        response = { "text": "Thanks!" }
+        response = { "text": "Cảm ơn bạn đã cung cấp thông tin. Hệ thống sẽ sớm xem và phản hồi bạn sau. Vui lòng chờ!" }
     } else if (payload === 'no') {
-        response = { "text": "Oops, try sending another image." }
+        response = { "text": "Xin hãy thử gửi một hình ảnh khác." }
+    }
+    else if (payload === "GET_STARTED") {
+        response = { "text": "Xin chào, đây là trang chính thức của BookingCare with Nobi. Tôi có thể giúp gì cho bạn" }
     }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
