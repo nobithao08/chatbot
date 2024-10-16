@@ -293,7 +293,7 @@ let setupPersistent = (PAGE_ACCESS_TOKEN) => {
         try {
             let data = {
                 "get_started": {
-                    "payload": "BẮT ĐẦU"
+                    "payload": "GET_STARTED"
                 },
                 "persistent": [
                     {
