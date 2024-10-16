@@ -225,6 +225,7 @@ async function handlePostback(sender_psid, received_postback) {
         case 'no':
             response = { "text": "Xin hãy thử gửi một hình ảnh khác." }
             break;
+        case 'RESTART_CONVERSATION':
         case 'GET_STARTED':
             await chatBotService.handleGetStarted(sender_psid);
 
@@ -290,7 +291,7 @@ let setupProfile = (req, res) => {
 
 let setupPersistent = async (req, res) => {
     let data = {
-        "persistent": [
+        "persistent_menu": [
             {
                 "locale": "default",
                 "composer_input_disabled": false,
@@ -317,21 +318,22 @@ let setupPersistent = async (req, res) => {
         ]
     }
 
-    await request({
-        "uri": `https://graph.facebook.com/v9.0/me/messenger_profile`,
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": data
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('Setup persistent succeeds!');
-        } else {
-            console.error("Unable to setup user profile: " + err);
-        }
-    });
+    try {
+        const response = await request({
+            "uri": `https://graph.facebook.com/v9.0/me/messenger_profile`,
+            "qs": { "access_token": PAGE_ACCESS_TOKEN },
+            "method": "POST",
+            "json": data
+        });
 
-    return res.send('Setup persistent succeeds!');
+        console.log('Setup persistent succeeds!');
+        return res.send('Setup persistent succeeds!');
+    } catch (err) {
+        console.error("Unable to setup user profile: " + err);
+        return res.status(500).send("Unable to setup user profile");
+    }
 };
+
 
 module.exports = {
     getHomepage,
