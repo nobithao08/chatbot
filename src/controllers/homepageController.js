@@ -54,20 +54,28 @@ let handleMessage = (sender_psid, received_message) => {
     const bookingKeywords = ["đặt lịch", "cách đặt lịch", "đặt lịch khám", "tôi muốn đặt lịch"];
     const legPainKeywords = ["đau chân", "đau lưng", "đau tay", "đau xương khớp", "đau cơ", "vấn đề chân", "vấn đề lưng", "vấn đề tay"];
 
-    // Danh sách bác sĩ với tên và đường dẫn chi tiết
+    // Danh sách bác sĩ với tên, đường dẫn chi tiết và hình ảnh
     const doctorsList = {
-        "bác sĩ Quyết": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/20",
-        "bác sĩ Văn Quyết": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/20",
-        "bác sĩ Hà Văn Quyết": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/20",
-        "bác sĩ Thư": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/21",
-        "bác sĩ Anh Thư": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/21",
-        "bác sĩ Nguyễn Anh Thư": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/21",
-        "bác sĩ Chiến": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/22",
-        "bác sĩ Minh Chiến": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/22",
-        "bác sĩ Bùi Minh Chiến": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/22",
-        "bác sĩ Hà": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/23",
-        "bác sĩ Minh Hà": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/23",
-        "bác sĩ Chu Minh Hà": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/23",
+        "bác sĩ Quyết": {
+            url: "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/20",
+            image: "https://your-image-url.com/quyet.jpg",
+            title: "Thông tin về bác sĩ Hà Văn Quyết"
+        },
+        "bác sĩ Thư": {
+            url: "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/21",
+            image: "https://your-image-url.com/thu.jpg",
+            title: "Thông tin về bác sĩ Nguyễn Anh Thư"
+        },
+        "bác sĩ Chiến": {
+            url: "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/22",
+            image: "https://your-image-url.com/chien.jpg",
+            title: "Thông tin về bác sĩ Bùi Minh Chiến"
+        },
+        "bác sĩ Hà": {
+            url: "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/23",
+            image: "https://your-image-url.com/ha.jpg",
+            title: "Thông tin về bác sĩ Chu Minh Hà"
+        }
     };
 
     if (received_message.text) {
@@ -76,19 +84,21 @@ let handleMessage = (sender_psid, received_message) => {
         // Kiểm tra xem có tên bác sĩ cụ thể nào trong tin nhắn hay không
         let doctorFound = false;
         for (let doctor in doctorsList) {
-            if (messageText.includes(doctor)) {
+            if (messageText.includes(doctor.toLowerCase())) {
+                let doctorInfo = doctorsList[doctor];
                 response = {
                     "attachment": {
                         "type": "template",
                         "payload": {
                             "template_type": "generic",
                             "elements": [{
-                                "title": `Thông tin về ${doctor}`,
+                                "title": doctorInfo.title,
+                                "image_url": doctorInfo.image,
                                 "subtitle": "Nhấn vào nút để xem chi tiết.",
                                 "buttons": [
                                     {
                                         "type": "web_url",
-                                        "url": doctorsList[doctor],
+                                        "url": doctorInfo.url,
                                         "title": "Xem chi tiết"
                                     }
                                 ]
@@ -104,17 +114,73 @@ let handleMessage = (sender_psid, received_message) => {
         // Nếu không tìm thấy tên bác sĩ cụ thể, tiếp tục kiểm tra các từ khóa khác
         if (!doctorFound) {
             if (bookingKeywords.some(keyword => messageText.includes(keyword))) {
-                response = { "text": "Bạn có thể đặt lịch khám tại đường dẫn sau: https://nobithao-fe-bookingcare.vercel.app/home" };
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Đặt lịch khám",
+                                "image_url": "https://your-image-url.com/booking.jpg",
+                                "subtitle": "Nhấn vào nút để đặt lịch khám.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/home",
+                                        "title": "Đặt lịch khám"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
             } else if (messageText.includes("bác sĩ")) { // Kiểm tra từ khóa chung "bác sĩ" nếu không có tên bác sĩ cụ thể
-                response = { "text": "Bạn có thể xem tất cả các bác sĩ tại đường dẫn sau: https://nobithao-fe-bookingcare.vercel.app/all-doctors" };
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Danh sách tất cả các bác sĩ",
+                                "image_url": "https://your-image-url.com/all-doctors.jpg",
+                                "subtitle": "Nhấn vào nút để xem danh sách bác sĩ.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/all-doctors",
+                                        "title": "Xem tất cả bác sĩ"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
             } else if (legPainKeywords.some(keyword => messageText.includes(keyword))) {
-                response = { "text": "Bạn có thể tìm hiểu thêm về khoa Cơ Xương Khớp tại đường dẫn sau: https://bookingcare.vn/khoa-co-xuong-khop" };
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Khoa Cơ Xương Khớp",
+                                "image_url": "https://your-image-url.com/orthopedics.jpg",
+                                "subtitle": "Tìm hiểu thêm về khoa Cơ Xương Khớp.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://bookingcare.vn/khoa-co-xuong-khop",
+                                        "title": "Tìm hiểu thêm"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
             } else {
                 response = { "text": "Xin lỗi, tôi không hiểu yêu cầu của bạn. Bạn có thể tìm hỗ trợ tại: https://bookingcare.vn/ho-tro" };
             }
         }
     }
-
     else if (received_message.attachments) {
         let attachment_url = received_message.attachments[0].payload.url;
         response = {
