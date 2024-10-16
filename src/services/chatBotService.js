@@ -50,7 +50,8 @@ let getFacebookUsername = (sender_psid) => {
 let handleGetStarted = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let response = { "text": "Xin chào, đây là trang chính thức của BookingCare with Nobi. Tôi có thể giúp gì cho bạn?" };
+            let username = await getFacebookUsername(sender_psid);
+            let response = { "text": `Xin chào ${username}, đây là trang chính thức của BookingCare with Nobi. Tôi có thể giúp gì cho bạn?` };
             await callSendAPI(sender_psid, response);  // Gọi hàm callSendAPI với sender_psid
             resolve('done');
         } catch (e) {
