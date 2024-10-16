@@ -225,7 +225,7 @@ async function handlePostback(sender_psid, received_postback) {
         case 'no':
             response = { "text": "Xin hãy thử gửi một hình ảnh khác." }
             break;
-        case 'GET_STARTED':
+        case 'BẮT ĐẦU':
             await chatBotService.handleGetStarted(sender_psid);
 
             break;
@@ -268,7 +268,7 @@ let callSendAPI = (sender_psid, response) => {
 
 let setupProfile = (req, res) => {
     let request_body = {
-        "get_started": { "payload": "GET_STARTED" },
+        "get_started": { "payload": "BẮT ĐẦU" },
         "whitelisted_domains": ["https://chatbot-3iqe.onrender.com/"]
     };
 
@@ -288,9 +288,66 @@ let setupProfile = (req, res) => {
     return res.send('Setup user profile succeeds!');
 };
 
+let setupPersistent = (PAGE_ACCESS_TOKEN) => {
+    return new Promise((resolve, reject) => {
+        try {
+            let data = {
+                "get_started": {
+                    "payload": "BẮT ĐẦU"
+                },
+                "persistent": [
+                    {
+                        "locale": "default",
+                        "composer_input_disabled": false,
+                        "call_to_actions": [
+                            {
+                                "type": "web_url",
+                                "title": "Đặt lịch khám bệnh",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/home",
+                                "webview_height_ratio": "full"
+                            },
+                            {
+                                "type": "web_url",
+                                "title": "Xem trang Facebook Booking Care",
+                                "url": "https://facebook.com/bookingcarewithnobi",
+                                "webview_height_ratio": "full"
+                            },
+                            {
+                                "type": "postback",
+                                "title": "Bắt đầu lại cuộc trò chuyện này",
+                                "payload": "RESTART_CONVERSATION"
+                            }
+                        ]
+                    }
+                ],
+
+                "whitelisted_domains": [
+                    process.env.SERVER_URL]
+            };
+
+            request({
+                "uri": "https://graph.facebook.com/v6.0/me/messenger_profile",
+                "qs": { "access_token": PAGE_ACCESS_TOKEN },
+                "method": "POST",
+                "json": data
+            }, (err, res, body) => {
+                if (!err) {
+                    resolve("setup done!");
+                } else {
+                    reject(err);
+                }
+            });
+
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 module.exports = {
     getHomepage,
     getWebhook,
     postWebhook,
     setupProfile,
+    setupPersistent,
 };
