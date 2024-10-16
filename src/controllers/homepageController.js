@@ -9,7 +9,7 @@ const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich'
 const IMAGE_ALL_DOCTOR = 'https://bit.ly/nobithaoAllBacSi'
 const IMAGE_MALE_DOCTOR = 'https://bit.ly/nobithaoBacSiNam'
 // const IMAGE_FEMALE_DOCTOR = 'https://bit.ly/nobithaoBacSiNu'
-const IMAGE_FEMALE_DOCTOR = 'https://png.pngtree.com/element_our/20190529/ourlarge/pngtree-hospital-medical-doctor-character-material-image_1192531.jpg'
+const IMAGE_FEMALE_DOCTOR = 'https://png.pngtree.com/png-vector/20240822/ourlarge/pngtree-clipart-a-doctor-png-image_13386097.png'
 
 
 
@@ -61,7 +61,7 @@ let postWebhook = (req, res) => {
 };
 
 // Xử lý tin nhắn
-let handleMessage = (sender_psid, received_message) => {
+let handleMessage = async (sender_psid, received_message) => {
     let response;
 
     const bookingKeywords = ["đặt lịch", "cách đặt lịch", "đặt lịch khám", "tôi muốn đặt lịch"];
@@ -127,20 +127,21 @@ let handleMessage = (sender_psid, received_message) => {
         // Nếu không tìm thấy tên bác sĩ cụ thể, tiếp tục kiểm tra các từ khóa khác
         if (!doctorFound) {
             if (bookingKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(senderId, "Bạn đang cần đặt lịch khám bệnh, vui lòng xem trang đặt lịch khám bệnh ở link bên dưới");
                 response = {
                     "attachment": {
                         "type": "template",
                         "payload": {
                             "template_type": "generic",
                             "elements": [{
-                                "title": "Đặt lịch khám",
+                                "title": "Đặt lịch khám bệnh",
                                 "image_url": IMAGE_GET_STARTED,
-                                "subtitle": "Nhấn vào nút để đặt lịch khám.",
+                                "subtitle": "Đặt lịch khám bệnh tại Booking Care",
                                 "buttons": [
                                     {
                                         "type": "web_url",
                                         "url": "https://nobithao-fe-bookingcare.vercel.app/home",
-                                        "title": "Đặt lịch khám"
+                                        "title": "Xem chi tiết"
                                     }
                                 ]
                             }]
