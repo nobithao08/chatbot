@@ -289,8 +289,8 @@ let setupProfile = (req, res) => {
     return res.send('Setup user profile succeeds!');
 };
 
-let setupPersistent = async (req, res) => {
-    let data = {
+let setupPersistentMenu = async (req, res) => {
+    let request_body = {
         "persistent_menu": [
             {
                 "locale": "default",
@@ -323,7 +323,7 @@ let setupPersistent = async (req, res) => {
             "uri": `https://graph.facebook.com/v9.0/me/messenger_profile`,
             "qs": { "access_token": PAGE_ACCESS_TOKEN },
             "method": "POST",
-            "json": data
+            "json": request_body
         });
 
         console.log('Setup persistent succeeds!');
@@ -340,5 +340,5 @@ module.exports = {
     getWebhook,
     postWebhook,
     setupProfile,
-    setupPersistent,
+    setupPersistentMenu,
 };

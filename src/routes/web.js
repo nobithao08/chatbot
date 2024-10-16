@@ -9,7 +9,7 @@ let initWebRoutes = (app) => {
     router.get("/webhook", homepageController.getWebhook);
     router.post("/webhook", homepageController.postWebhook);
     router.post("/setup-profile", homepageController.setupProfile);
-    router.post("/setup-persistent-menu", homepageController.setupPersistent);
+    router.post("/setup-persistent-menu", homepageController.setupPersistentMenu);
 
     return app.use("/", router);
 };
