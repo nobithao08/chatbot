@@ -61,6 +61,18 @@ let postWebhook = (req, res) => {
 };
 
 // Xử lý tin nhắn
+const sendTextMessage = async (senderId, text) => {
+    const messageData = { text: text };
+    await request({
+        uri: `https://graph.facebook.com/v9.0/me/messages`,
+        qs: { access_token: PAGE_ACCESS_TOKEN },
+        method: 'POST',
+        json: {
+            recipient: { id: senderId },
+            message: messageData
+        }
+    });
+};
 
 // Xử lý tin nhắn
 let handleMessage = async (sender_psid, received_message) => {
