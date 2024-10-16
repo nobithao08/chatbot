@@ -240,7 +240,7 @@ async function handlePostback(sender_psid, received_postback) {
     //     response = { "text": "Xin chào, đây là trang chính thức của BookingCare with Nobi. Tôi có thể giúp gì cho bạn?" };
     // }
 
-    // callSendAPI(sender_psid, response);
+    callSendAPI(sender_psid, response);
 };
 
 // Gửi tin nhắn qua API
