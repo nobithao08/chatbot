@@ -52,14 +52,22 @@ let handleMessage = (sender_psid, received_message) => {
     let response;
 
     const bookingKeywords = ["đặt lịch", "cách đặt lịch", "đặt lịch khám", "tôi muốn đặt lịch"];
-    const legPainKeywords = ["đau chân", "đau xương khớp", "đau cơ", "vấn đề chân"];
+    const legPainKeywords = ["đau chân", "đau lưng", "đau tay", "đau xương khớp", "đau cơ", "vấn đề chân", "vấn đề lưng", "vấn đề tay"];
 
     // Danh sách bác sĩ với tên và đường dẫn chi tiết
     const doctorsList = {
-        "bác sĩ hà": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/23",
-        "bác sĩ nguyễn": "https://nobithao-fe-bookingcare.vercel.app/doctors/nguyen",
-        "bác sĩ lê": "https://nobithao-fe-bookingcare.vercel.app/doctors/le",
-        // Thêm các bác sĩ khác tại đây
+        "bác sĩ Quyết": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/20",
+        "bác sĩ Văn Quyết": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/20",
+        "bác sĩ Hà Văn Quyết": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/20",
+        "bác sĩ Thư": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/21",
+        "bác sĩ Anh Thư": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/21",
+        "bác sĩ Nguyễn Anh Thư": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/21",
+        "bác sĩ Chiến": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/22",
+        "bác sĩ Minh Chiến": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/22",
+        "bác sĩ Bùi Minh Chiến": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/22",
+        "bác sĩ Hà": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/23",
+        "bác sĩ Minh Hà": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/23",
+        "bác sĩ Chu Minh Hà": "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/23",
     };
 
     if (received_message.text) {
@@ -69,7 +77,25 @@ let handleMessage = (sender_psid, received_message) => {
         let doctorFound = false;
         for (let doctor in doctorsList) {
             if (messageText.includes(doctor)) {
-                response = { "text": `Đây là trang thông tin của ${doctor}: ${doctorsList[doctor]}` };
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": `Thông tin về ${doctor}`,
+                                "subtitle": "Nhấn vào nút để xem chi tiết.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": doctorsList[doctor],
+                                        "title": "Xem chi tiết"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
                 doctorFound = true;
                 break;
             }
@@ -87,7 +113,9 @@ let handleMessage = (sender_psid, received_message) => {
                 response = { "text": "Xin lỗi, tôi không hiểu yêu cầu của bạn. Bạn có thể tìm hỗ trợ tại: https://bookingcare.vn/ho-tro" };
             }
         }
-    } else if (received_message.attachments) {
+    }
+
+    else if (received_message.attachments) {
         let attachment_url = received_message.attachments[0].payload.url;
         response = {
             "attachment": {

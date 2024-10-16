@@ -3,15 +3,62 @@
 
 <head>
         <meta charset="UTF-8">
-        <title>Home Page</title>
+        <link rel="shortcut icon" href="/io.ico" />
+
+        <title>Hỗ Trợ Khách Hàng</title>
         <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-        <h1>HELLO NOBI</h1>
+
+        <h1 class="support-title">Trang hỗ trợ khách hàng</h1>
+        <p class="support-text">Vui lòng nhấn vào link bên dưới để nhận hỗ trợ:</p>
+        <a href="https://your-support-link.com" class="support-link">Nhấn vào đây để được hỗ trợ</a>
+
+        <style>
+                .support-title {
+                        font-size: 36px;
+                        font-weight: bold;
+                        color: #2C3E50;
+                        text-align: center;
+                        margin-top: 50px;
+                        margin-bottom: 20px;
+                        font-family: 'Arial', sans-serif;
+                        text-transform: uppercase;
+                        letter-spacing: 2px;
+                }
+
+                .support-text {
+                        font-size: 20px;
+                        text-align: center;
+                        color: #34495E;
+                        margin-bottom: 10px;
+                }
+
+                .support-link {
+                        display: inline-block;
+                        background-color: #2980B9;
+                        color: white;
+                        padding: 10px 20px;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        font-size: 18px;
+                        text-align: center;
+                        margin: 0 auto;
+                        display: block;
+                        width: fit-content;
+                }
+
+                .support-link:hover {
+                        background-color: #1F618D;
+                        transition: background-color 0.3s;
+                }
+        </style>
+
+        <!--         
         <form method="POST" action="/setup-profile">
                 <button type="submit">Setup profile</button>
-        </form>
+        </form> -->
 </body>
 
 </html>
