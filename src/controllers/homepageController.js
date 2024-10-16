@@ -5,6 +5,15 @@ import chatBotService from "../services/chatBotService";
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
+const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich'
+const IMAGE_ALL_DOCTOR = 'https://bit.ly/nobithaoAllBacSi'
+const IMAGE_MALE_DOCTOR = 'https://bit.ly/nobithaoBacSiNam'
+const IMAGE_FEMALE_DOCTOR = 'https://bit.ly/nobithaoBacSiNu'
+
+const IMAGE_COXUONGKHOP = 'https://bit.ly/nobithaoCoXuongKhop'
+
+
+
 let getHomepage = (req, res) => {
     return res.render("homepage.ejs");
 };
@@ -58,22 +67,22 @@ let handleMessage = (sender_psid, received_message) => {
     const doctorsList = {
         "bác sĩ Quyết": {
             url: "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/20",
-            image: "https://your-image-url.com/quyet.jpg",
+            image: IMAGE_MALE_DOCTOR,
             title: "Thông tin về bác sĩ Hà Văn Quyết"
         },
         "bác sĩ Thư": {
             url: "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/21",
-            image: "https://your-image-url.com/thu.jpg",
+            image: IMAGE_FEMALE_DOCTOR,
             title: "Thông tin về bác sĩ Nguyễn Anh Thư"
         },
         "bác sĩ Chiến": {
             url: "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/22",
-            image: "https://your-image-url.com/chien.jpg",
+            image: IMAGE_MALE_DOCTOR,
             title: "Thông tin về bác sĩ Bùi Minh Chiến"
         },
         "bác sĩ Hà": {
             url: "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/23",
-            image: "https://your-image-url.com/ha.jpg",
+            image: IMAGE_FEMALE_DOCTOR,
             title: "Thông tin về bác sĩ Chu Minh Hà"
         }
     };
@@ -121,7 +130,7 @@ let handleMessage = (sender_psid, received_message) => {
                             "template_type": "generic",
                             "elements": [{
                                 "title": "Đặt lịch khám",
-                                "image_url": "https://your-image-url.com/booking.jpg",
+                                "image_url": IMAGE_GET_STARTED,
                                 "subtitle": "Nhấn vào nút để đặt lịch khám.",
                                 "buttons": [
                                     {
@@ -142,7 +151,7 @@ let handleMessage = (sender_psid, received_message) => {
                             "template_type": "generic",
                             "elements": [{
                                 "title": "Danh sách tất cả các bác sĩ",
-                                "image_url": "https://your-image-url.com/all-doctors.jpg",
+                                "image_url": IMAGE_ALL_DOCTOR,
                                 "subtitle": "Nhấn vào nút để xem danh sách bác sĩ.",
                                 "buttons": [
                                     {
@@ -163,7 +172,7 @@ let handleMessage = (sender_psid, received_message) => {
                             "template_type": "generic",
                             "elements": [{
                                 "title": "Khoa Cơ Xương Khớp",
-                                "image_url": "https://your-image-url.com/orthopedics.jpg",
+                                "image_url": IMAGE_COXUONGKHOP,
                                 "subtitle": "Tìm hiểu thêm về khoa Cơ Xương Khớp.",
                                 "buttons": [
                                     {
