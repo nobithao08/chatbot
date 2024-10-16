@@ -225,7 +225,7 @@ async function handlePostback(sender_psid, received_postback) {
         case 'no':
             response = { "text": "Xin hãy thử gửi một hình ảnh khác." }
             break;
-        case 'BẮT ĐẦU':
+        case 'GET_STARTED':
             await chatBotService.handleGetStarted(sender_psid);
 
             break;
@@ -268,7 +268,7 @@ let callSendAPI = (sender_psid, response) => {
 
 let setupProfile = (req, res) => {
     let request_body = {
-        "get_started": { "payload": "BẮT ĐẦU" },
+        "get_started": { "payload": "GET_STARTED" },
         "whitelisted_domains": ["https://chatbot-3iqe.onrender.com/"]
     };
 
@@ -326,7 +326,7 @@ let setupPersistent = (PAGE_ACCESS_TOKEN) => {
             };
 
             request({
-                "uri": "https://graph.facebook.com/v6.0/me/messenger_profile",
+                "uri": `https://graph.facebook.com/v9.0/me/messenger_profile`,
                 "qs": { "access_token": PAGE_ACCESS_TOKEN },
                 "method": "POST",
                 "json": data
