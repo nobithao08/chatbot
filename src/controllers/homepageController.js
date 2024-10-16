@@ -8,7 +8,11 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich'
 const IMAGE_ALL_DOCTOR = 'https://bit.ly/nobithaoAllBacSi'
 const IMAGE_MALE_DOCTOR = 'https://bit.ly/nobithaoBacSiNam'
-const IMAGE_FEMALE_DOCTOR = 'https://bit.ly/nobithaoBacSiNu'
+// const IMAGE_FEMALE_DOCTOR = 'https://bit.ly/nobithaoBacSiNu'
+const IMAGE_FEMALE_DOCTOR = 'https://png.pngtree.com/element_our/20190529/ourlarge/pngtree-hospital-medical-doctor-character-material-image_1192531.jpg'
+
+
+
 
 const IMAGE_COXUONGKHOP = 'https://bit.ly/nobithaoCoXuongKhop'
 
