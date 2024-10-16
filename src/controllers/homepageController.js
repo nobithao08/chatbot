@@ -61,6 +61,8 @@ let postWebhook = (req, res) => {
 };
 
 // Xử lý tin nhắn
+
+// Xử lý tin nhắn
 let handleMessage = async (sender_psid, received_message) => {
     let response;
 
@@ -99,6 +101,9 @@ let handleMessage = async (sender_psid, received_message) => {
         for (let doctor in doctorsList) {
             if (messageText.includes(doctor.toLowerCase())) {
                 let doctorInfo = doctorsList[doctor];
+                // Gửi tin nhắn văn bản trước
+                await sendTextMessage(sender_psid, "Bạn đang tìm thông tin về bác sĩ. Dưới đây là thông tin chi tiết:");
+
                 response = {
                     "attachment": {
                         "type": "template",
@@ -127,25 +132,22 @@ let handleMessage = async (sender_psid, received_message) => {
         // Nếu không tìm thấy tên bác sĩ cụ thể, tiếp tục kiểm tra các từ khóa khác
         if (!doctorFound) {
             if (bookingKeywords.some(keyword => messageText.includes(keyword))) {
-                // Gửi tin nhắn văn bản trước
-                await sendTextMessage(senderId, "Bạn đang cần đặt lịch khám bệnh, vui lòng xem trang đặt lịch khám bệnh ở link bên dưới");
+                await sendTextMessage(sender_psid, "Bạn đang cần đặt lịch khám bệnh, vui lòng xem trang đặt lịch khám bệnh ở link bên dưới");
 
-
-                // Tạo phản hồi mẫu với ảnh
-                const response = {
+                response = {
                     "attachment": {
                         "type": "template",
                         "payload": {
                             "template_type": "generic",
                             "elements": [{
-                                "title": "Đặt lịch khám",
+                                "title": "Đặt lịch khám bệnh",
                                 "image_url": IMAGE_GET_STARTED,
-                                "subtitle": "Nhấn vào nút để đặt lịch khám.",
+                                "subtitle": "Đặt lịch khám bệnh tại Booking Care",
                                 "buttons": [
                                     {
                                         "type": "web_url",
                                         "url": "https://nobithao-fe-bookingcare.vercel.app/home",
-                                        "title": "Đặt lịch khám"
+                                        "title": "Xem chi tiết"
                                     }
                                 ]
                             }]
@@ -153,6 +155,8 @@ let handleMessage = async (sender_psid, received_message) => {
                     }
                 };
             } else if (messageText.includes("bác sĩ")) { // Kiểm tra từ khóa chung "bác sĩ" nếu không có tên bác sĩ cụ thể
+                await sendTextMessage(sender_psid, "Bạn đang tìm kiếm thông tin về bác sĩ, vui lòng xem danh sách bác sĩ dưới đây.");
+
                 response = {
                     "attachment": {
                         "type": "template",
@@ -174,6 +178,8 @@ let handleMessage = async (sender_psid, received_message) => {
                     }
                 };
             } else if (legPainKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về chân. Dưới đây là thông tin về khoa Cơ Xương Khớp:");
+
                 response = {
                     "attachment": {
                         "type": "template",
