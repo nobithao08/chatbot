@@ -1,33 +1,44 @@
+require("dotenv").config();
 import request from "request";
 
-// Gửi tin nhắn phản hồi qua Messenger
-let sendMessage = (sender_psid, response) => {
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
+let callSendAPI = (sender_psid, response) => {
     let request_body = {
-        "recipient": { "id": sender_psid },
-        "message": { "text": response }
+        "recipient": {
+            "id": sender_psid
+        },
+        "message": response
     };
 
     request({
         "uri": "https://graph.facebook.com/v6.0/me/messages",
-        "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
         if (!err) {
-            console.log('Tin nhắn đã được gửi!');
+            console.log('Message sent!');
         } else {
-            console.error("Không thể gửi tin nhắn:" + err);
+            console.error("Unable to send message:" + err);
         }
     });
-};
+}
 
-// Xử lý câu hỏi liên quan đến đặt lịch
-let handleBookingQuery = (sender_psid) => {
-    let response = "Bạn có thể đặt lịch khám bằng cách nhấn vào đây: https://your-domain.com/booking";
-    sendMessage(sender_psid, response);
-};
+let handleGetStarted = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = { "text": "Xin chào, đây là trang chính thức của BookingCare with Nobi. Tôi có thể giúp gì cho bạn?" }
+            await callSendAPI(sender_psid, response);
+            resolve('done');
 
-export default {
-    sendMessage,
-    handleBookingQuery
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+module.exports = {
+    // callSendAPI: callSendAPI,
+    handleGetStarted: handleGetStarted
 };

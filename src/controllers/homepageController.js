@@ -214,19 +214,33 @@ let handleMessage = (sender_psid, received_message) => {
 };
 
 // Xử lý sự kiện postback
-let handlePostback = (sender_psid, received_postback) => {
+async function handlePostback(sender_psid, received_postback) {
     let response;
     let payload = received_postback.payload;
 
-    if (payload === 'yes') {
-        response = { "text": "Cảm ơn bạn đã cung cấp thông tin. Hệ thống sẽ sớm xem và phản hồi bạn sau. Vui lòng chờ!" };
-    } else if (payload === 'no') {
-        response = { "text": "Xin hãy thử gửi một hình ảnh khác." };
-    } else if (payload === "GET_STARTED") {
-        response = { "text": "Xin chào, đây là trang chính thức của BookingCare with Nobi. Tôi có thể giúp gì cho bạn?" };
-    }
+    switch (payload) {
+        case 'yes':
+            response = { "text": "Cảm ơn bạn đã cung cấp thông tin. Hệ thống sẽ sớm xem và phản hồi bạn sau. Vui lòng chờ!" }
+            break;
+        case 'no':
+            response = { "text": "Xin hãy thử gửi một hình ảnh khác." }
+            break;
+        case 'GET_STARTED':
+            await chatBotService.handleGetStarted(sender_psid);
 
-    callSendAPI(sender_psid, response);
+            break;
+        default:
+            response = { "text": `Tôi không biết phản hồi với postback ${payload}` }
+    }
+    // if (payload === 'yes') {
+    //     response = { "text": "Cảm ơn bạn đã cung cấp thông tin. Hệ thống sẽ sớm xem và phản hồi bạn sau. Vui lòng chờ!" };
+    // } else if (payload === 'no') {
+    //     response = { "text": "Xin hãy thử gửi một hình ảnh khác." };
+    // } else if (payload === "GET_STARTED") {
+    //     response = { "text": "Xin chào, đây là trang chính thức của BookingCare with Nobi. Tôi có thể giúp gì cho bạn?" };
+    // }
+
+    // callSendAPI(sender_psid, response);
 };
 
 // Gửi tin nhắn qua API
