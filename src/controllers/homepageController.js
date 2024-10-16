@@ -127,21 +127,25 @@ let handleMessage = async (sender_psid, received_message) => {
         // Nếu không tìm thấy tên bác sĩ cụ thể, tiếp tục kiểm tra các từ khóa khác
         if (!doctorFound) {
             if (bookingKeywords.some(keyword => messageText.includes(keyword))) {
+                // Gửi tin nhắn văn bản trước
                 await sendTextMessage(senderId, "Bạn đang cần đặt lịch khám bệnh, vui lòng xem trang đặt lịch khám bệnh ở link bên dưới");
-                response = {
+
+
+                // Tạo phản hồi mẫu với ảnh
+                const response = {
                     "attachment": {
                         "type": "template",
                         "payload": {
                             "template_type": "generic",
                             "elements": [{
-                                "title": "Đặt lịch khám bệnh",
+                                "title": "Đặt lịch khám",
                                 "image_url": IMAGE_GET_STARTED,
-                                "subtitle": "Đặt lịch khám bệnh tại Booking Care",
+                                "subtitle": "Nhấn vào nút để đặt lịch khám.",
                                 "buttons": [
                                     {
                                         "type": "web_url",
                                         "url": "https://nobithao-fe-bookingcare.vercel.app/home",
-                                        "title": "Xem chi tiết"
+                                        "title": "Đặt lịch khám"
                                     }
                                 ]
                             }]
@@ -157,12 +161,12 @@ let handleMessage = async (sender_psid, received_message) => {
                             "elements": [{
                                 "title": "Danh sách tất cả các bác sĩ",
                                 "image_url": IMAGE_ALL_DOCTOR,
-                                "subtitle": "Nhấn vào nút để xem danh sách bác sĩ.",
+                                "subtitle": "Thông tin các bác sĩ làm việc tại Booking Care.",
                                 "buttons": [
                                     {
                                         "type": "web_url",
                                         "url": "https://nobithao-fe-bookingcare.vercel.app/all-doctors",
-                                        "title": "Xem tất cả bác sĩ"
+                                        "title": "Xem chi tiết"
                                     }
                                 ]
                             }]
