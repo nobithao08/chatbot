@@ -24,7 +24,7 @@ let callSendAPI = (sender_psid, response) => {
             console.error("Unable to send message:" + err);
         }
     });
-}
+};
 
 let getFacebookUsername = (sender_psid) => {
     return new Promise((resolve, reject) => {
@@ -99,7 +99,7 @@ let sendGetStartedTemplate = () => {
         }
     };
     return response;
-}
+};
 
 let handlePostback = (sender_psid, payload) => {
     switch (payload) {
@@ -117,7 +117,6 @@ let handlePostback = (sender_psid, payload) => {
             break;
     }
 };
-
 
 let sendResponse = (sender_psid, message) => {
     const response = {
