@@ -11,13 +11,15 @@ const IMAGE_MALE_DOCTOR = 'https://bit.ly/nobithaoBacSiNam'
 // const IMAGE_FEMALE_DOCTOR = 'https://bit.ly/nobithaoBacSiNu'
 const IMAGE_FEMALE_DOCTOR = 'https://png.pngtree.com/png-vector/20240822/ourlarge/pngtree-clipart-a-doctor-png-image_13386097.png'
 
-
-
 const IMAGE_COXUONGKHOP = 'https://bit.ly/nobithaoCoXuongKhop'
 const IMAGE_THANKINH = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101739-than-kinh.png'
-
-
-
+const IMAGE_TIEUHOA = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-tieu-hoa.png'
+const IMAGE_DALIEU = 'https://cdn.bookingcare.vn/fo/w1920/2023/12/26/101638-da-lieu.png'
+const IMAGE_MAT = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101638-mat.png'
+const IMAGE_TIMMACH = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-tim-mach.png'
+const IMAGE_TAIMUIHONG = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-tai-mui-hong.png'
+const IMAGE_SUCKHOATAMTHAN = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-suc-khoe-tam-than.png'
+const IMAGE_THANTIETNIEU = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101739-than-tiet-nieu.png'
 
 let getHomepage = (req, res) => {
     return res.render("homepage.ejs");
@@ -82,6 +84,14 @@ let handleMessage = async (sender_psid, received_message) => {
     const bookingKeywords = ["đặt lịch", "cách đặt lịch", "đặt lịch khám", "tôi muốn đặt lịch"];
     const legPainKeywords = ["đau chân", "đau lưng", "đau tay", "xương", "khớp", "đau cơ", "chân", "lưng", "tay", "cơ", "gout", "gối", "vai", "khủy"];
     const nervePainKeywords = ["não", "đầu", "thần kinh", "chóng mặt", "tiền đình", "tăng động", "kinh", "tê bì nửa mặt", "Pakison", "ý thức"];
+    const digestiveKeywords = ["trúng thực", "ăn", "uống", "tiêu hóa", "khó tiêu", "trĩ", "táo bón", "tiêu cháy", "thực quản", "nội soi", "dạ dày", "đại tràng", "nôn", "ói", "bụng", "ợ chua", "đầy hơi", "thực quản", "ruột", "tá tràng", "u nang tuyến tụy", "gan", "mật"];
+    const dermatologyKeywords = ["ngứa", "mụn", "mẩn ngứa", "vảy nến", "chàm", "da", "Da", "tàn nhang", "Nấm", "nấm", "rụng tóc", "dị ứng", "viêm nang da", "hói đầu",];
+    const eyeKeywords = ["nhìn thấy", "mắt", "cận thị", "viễn thị", "loạn thị", "nhược thị", "lão thị", "đục thủy tinh thể", "tuyến lệ", "nhãn áp", "giác mạc", "võng mạc"];
+    const cardiologyKeywords = ["đau ngực", "tim", "huyết áp", "khó thở", "choáng váng"];
+    const entKeywords = ["tai", "mũi", "họng", "amidan", "viêm xoang", "ho", "màng nhỉ", "điếc", "nghe", "ngửi", "bị chảy máu cam", "họng", "khó nuốt", "ngủ ngáy"];
+    const mentalHealthKeywords = ["stress", "trầm cảm", "lo âu", "tinh thần", "khó ngủ", "cảm giác", "buồn bã", "cô đơn", "ngủ", "căng thẳng", "tâm thần phân liệt", "hoang tưởng", "cảm xúc", "tâm trí", "lưỡng cực", "nhân cách", "ảo giác", "nói cười một mình", "bi quan", "bồn chồn", "hoảng hốt", "buồn rầu", "tập trung", "tâm lý", "tư duy", "lo lắng", "sợ hãi", "sợ", "xa lánh", "kì lạ"];
+    const urologyKeywords = ["thận", "tiểu", "đái", "viêm bàng quang", "tiền liệt tuyến", "bàng quang"];
+
 
 
     // Danh sách bác sĩ với tên, đường dẫn chi tiết và hình ảnh
@@ -192,8 +202,9 @@ let handleMessage = async (sender_psid, received_message) => {
                         }
                     }
                 };
-            } else if (nervePainKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về thần kinh. Dưới đây là thông tin về khoa Thần Kinh:");
+            }
+            else if (legPainKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về cơ xương khớp. Dưới đây là thông tin về khoa Cơ Xương Khớp:");
 
                 response = {
                     "attachment": {
@@ -201,9 +212,9 @@ let handleMessage = async (sender_psid, received_message) => {
                         "payload": {
                             "template_type": "generic",
                             "elements": [{
-                                "title": "Khoa Thần Kinh",
+                                "title": "Khoa Cơ Xương Khớp",
                                 "image_url": IMAGE_COXUONGKHOP,
-                                "subtitle": "Tìm hiểu thêm về khoa Thần Kinh.",
+                                "subtitle": "Tìm hiểu thêm về khoa Cơ Xương Khớp.",
                                 "buttons": [
                                     {
                                         "type": "web_url",
@@ -216,8 +227,8 @@ let handleMessage = async (sender_psid, received_message) => {
                     }
                 };
             }
-            else if (legPainKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về cơ xương khớp. Dưới đây là thông tin về khoa Cơ Xương Khớp:");
+            else if (nervePainKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về thần kinh. Dưới đây là thông tin về khoa Thần kinh:");
 
                 response = {
                     "attachment": {
@@ -225,9 +236,9 @@ let handleMessage = async (sender_psid, received_message) => {
                         "payload": {
                             "template_type": "generic",
                             "elements": [{
-                                "title": "Khoa Cơ Xương Khớp",
+                                "title": "Khoa Thần kinh",
                                 "image_url": IMAGE_THANKINH,
-                                "subtitle": "Tìm hiểu thêm về khoa Cơ Xương Khớp.",
+                                "subtitle": "Tìm hiểu thêm về khoa Thần kinh.",
                                 "buttons": [
                                     {
                                         "type": "web_url",
@@ -240,8 +251,176 @@ let handleMessage = async (sender_psid, received_message) => {
                     }
                 };
             }
+            else if (digestiveKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về tiêu hóa. Dưới đây là thông tin về khoa Tiêu hóa:");
+
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Khoa Tiêu hóa",
+                                "image_url": IMAGE_TIEUHOA,
+                                "subtitle": "Tìm hiểu thêm về khoa Tiêu hóa.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/3",
+                                        "title": "Tìm hiểu thêm"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
+            }
+            else if (dermatologyKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về da liễu. Dưới đây là thông tin về khoa Da liễu:");
+
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Khoa Da liễu",
+                                "image_url": IMAGE_DALIEU,
+                                "subtitle": "Tìm hiểu thêm về khoa Da liễu.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/4",
+                                        "title": "Tìm hiểu thêm"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
+            }
+            else if (eyeKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về mắt. Dưới đây là thông tin về Chuyên Khoa Mắt:");
+
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Chuyên Khoa Mắt",
+                                "image_url": IMAGE_MAT,
+                                "subtitle": "Tìm hiểu thêm về Chuyên Khoa Mắt.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/5",
+                                        "title": "Tìm hiểu thêm"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
+            }
+            else if (cardiologyKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về tim mạch. Dưới đây là thông tin về khoa Tim mạch:");
+
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Khoa Tim mạch",
+                                "image_url": IMAGE_TIMMACH,
+                                "subtitle": "Tìm hiểu thêm về khoa Tim mạch.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/6",
+                                        "title": "Tìm hiểu thêm"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
+            }
+            else if (entKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về tai mũi họng. Dưới đây là thông tin về khoa Tai Mũi Họng:");
+
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Khoa Tai Mũi Họng",
+                                "image_url": IMAGE_TAIMUIHONG,
+                                "subtitle": "Tìm hiểu thêm về khoa Tai Mũi Họng.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/7",
+                                        "title": "Tìm hiểu thêm"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
+            }
+            else if (mentalHealthKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về sức khỏe tâm thần. Dưới đây là thông tin về khoa Sức khỏe tâm thần:");
+
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Khoa Sức khỏe tâm thần",
+                                "image_url": IMAGE_SUCKHOATAMTHAN,
+                                "subtitle": "Tìm hiểu thêm về khoa Sức khỏe tâm thần.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/8",
+                                        "title": "Tìm hiểu thêm"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
+            }
+            else if (urologyKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về Thận - Tiết niệu. Dưới đây là thông tin về khoa Thận - Tiết niệu:");
+
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Khoa Thận - Tiết niệu",
+                                "image_url": IMAGE_THANTIETNIEU,
+                                "subtitle": "Tìm hiểu thêm về khoa Thận - Tiết niệu.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/9",
+                                        "title": "Tìm hiểu thêm"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
+            }
             else {
-                response = { "text": "Xin lỗi, tôi không hiểu yêu cầu của bạn. Bạn có thể tìm hỗ trợ tại: https://bookingcare.vn/ho-tro" };
+                response = { "text": "Xin lỗi, tôi không hiểu yêu cầu của bạn. Bạn có thể nhắn rõ ràng hơn không" };
             }
         }
     }
