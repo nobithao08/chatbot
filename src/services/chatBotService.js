@@ -104,19 +104,20 @@ let sendGetStartedTemplate = () => {
 let handlePostback = (sender_psid, payload) => {
     switch (payload) {
         case "BOOK":
-            sendResponse(sender_psid, "Đang chuyển đến trang đặt lịch... https://nobithao-fe-bookingcare.vercel.app");
+            sendResponse(sender_psid, "Bạn có thể đặt lịch tại đây: [https://nobithao-fe-bookingcare.vercel.app]");
             break;
         case "SPECIALTY":
-            sendResponse(sender_psid, "Đang chuyển đến trang chuyên khoa... [https://nobithao-fe-bookingcare.vercel.app/all-specialties]");
+            sendResponse(sender_psid, "Bạn có thể xem các chuyên khoa tại đây: https://nobithao-fe-bookingcare.vercel.app");
             break;
         case "FACILITIES":
-            sendResponse(sender_psid, "Đang chuyển đến trang cơ sở y tế... [Link đến trang cơ sở y tế]");
+            sendResponse(sender_psid, "Bạn có thể xem cơ sở y tế tại đây: [Link đến trang cơ sở y tế]");
             break;
         default:
             sendResponse(sender_psid, "Xin lỗi, tôi không hiểu yêu cầu của bạn.");
             break;
     }
 };
+
 
 let sendResponse = (sender_psid, message) => {
     const response = {
