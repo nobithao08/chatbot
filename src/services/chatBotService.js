@@ -2,7 +2,7 @@ require("dotenv").config();
 import request from "request";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich';
+const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich'
 
 let callSendAPI = (sender_psid, response) => {
     let request_body = {
@@ -24,7 +24,7 @@ let callSendAPI = (sender_psid, response) => {
             console.error("Unable to send message:" + err);
         }
     });
-};
+}
 
 let getFacebookUsername = (sender_psid) => {
     return new Promise((resolve, reject) => {
@@ -54,9 +54,10 @@ let handleGetStarted = (sender_psid) => {
             let username = await getFacebookUsername(sender_psid);
             let response1 = { "text": `Xin chào ${username}, đây là trang chính thức của BookingCare with Nobi. Tôi có thể giúp gì cho bạn?` };
 
-            let response2 = sendGetStartedTemplate();
+            let response2 = sendGetStratedTemplate();
 
             await callSendAPI(sender_psid, response1);
+
             await callSendAPI(sender_psid, response2);
 
             resolve('done');
@@ -67,7 +68,7 @@ let handleGetStarted = (sender_psid) => {
     });
 };
 
-let sendGetStartedTemplate = () => {
+let sendGetStratedTemplate = () => {
     let response = {
         "attachment": {
             "type": "template",
@@ -99,59 +100,8 @@ let sendGetStartedTemplate = () => {
         }
     };
     return response;
-};
+}
 
-let handlePostback = (sender_psid, payload) => {
-    switch (payload) {
-        case "BOOK":
-            sendResponse(sender_psid, "Bạn có thể đặt lịch tại đây: [https://nobithao-fe-bookingcare.vercel.app]");
-            break;
-        case "SPECIALTY":
-            sendResponse(sender_psid, "Bạn có thể xem các chuyên khoa tại đây: https://nobithao-fe-bookingcare.vercel.app");
-            break;
-        case "FACILITIES":
-            sendResponse(sender_psid, "Bạn có thể xem cơ sở y tế tại đây: [Link đến trang cơ sở y tế]");
-            break;
-        default:
-            sendResponse(sender_psid, "Xin lỗi, tôi không hiểu yêu cầu của bạn.");
-            break;
-    }
-};
-
-let sendResponse = (sender_psid, message) => {
-    const response = {
-        "text": message
-    };
-    callSendAPI(sender_psid, response);
-};
-
-// Hàm xử lý webhook event
-let handleWebhookEvent = (event) => {
-    let sender_psid = event.sender.id;
-
-    if (event.message) {
-        handleMessage(event);
-    } else if (event.postback) {
-        handlePostbackEvent(event);
-    }
-};
-
-let handleMessage = (event) => {
-    // Xử lý tin nhắn văn bản nếu cần
-    let sender_psid = event.sender.id;
-    let message = event.message.text;
-    // Bạn có thể thêm logic xử lý tin nhắn ở đây
-};
-
-let handlePostbackEvent = (event) => {
-    let sender_psid = event.sender.id;
-    let payload = event.postback.payload;
-
-    handlePostback(sender_psid, payload);
-};
-
-// Export hàm handleGetStarted
 module.exports = {
-    handleGetStarted: handleGetStarted,
-    handleWebhookEvent: handleWebhookEvent // Xuất hàm xử lý sự kiện webhook
+    handleGetStarted: handleGetStarted
 };
