@@ -13,8 +13,9 @@ const IMAGE_FEMALE_DOCTOR = 'https://png.pngtree.com/png-vector/20240822/ourlarg
 
 
 
-
 const IMAGE_COXUONGKHOP = 'https://bit.ly/nobithaoCoXuongKhop'
+const IMAGE_THANKINH = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101739-than-kinh.png'
+
 
 
 
@@ -79,7 +80,9 @@ let handleMessage = async (sender_psid, received_message) => {
     let response;
 
     const bookingKeywords = ["đặt lịch", "cách đặt lịch", "đặt lịch khám", "tôi muốn đặt lịch"];
-    const legPainKeywords = ["đau chân", "đau lưng", "đau tay", "đau xương khớp", "đau cơ", "vấn đề chân", "vấn đề lưng", "vấn đề tay"];
+    const legPainKeywords = ["đau chân", "đau lưng", "đau tay", "xương", "khớp", "đau cơ", "chân", "lưng", "tay", "cơ", "gout", "gối", "vai", "khủy"];
+    const nervePainKeywords = ["não", "đầu", "thần kinh", "chóng mặt", "tiền đình", "tăng động", "kinh", "tê bì nửa mặt", "Pakison", "ý thức"];
+
 
     // Danh sách bác sĩ với tên, đường dẫn chi tiết và hình ảnh
     const doctorsList = {
@@ -189,8 +192,32 @@ let handleMessage = async (sender_psid, received_message) => {
                         }
                     }
                 };
-            } else if (legPainKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về chân. Dưới đây là thông tin về khoa Cơ Xương Khớp:");
+            } else if (nervePainKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về thần kinh. Dưới đây là thông tin về khoa Thần Kinh:");
+
+                response = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Khoa Thần Kinh",
+                                "image_url": IMAGE_COXUONGKHOP,
+                                "subtitle": "Tìm hiểu thêm về khoa Thần Kinh.",
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/1",
+                                        "title": "Tìm hiểu thêm"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                };
+            }
+            else if (legPainKeywords.some(keyword => messageText.includes(keyword))) {
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về cơ xương khớp. Dưới đây là thông tin về khoa Cơ Xương Khớp:");
 
                 response = {
                     "attachment": {
@@ -199,12 +226,12 @@ let handleMessage = async (sender_psid, received_message) => {
                             "template_type": "generic",
                             "elements": [{
                                 "title": "Khoa Cơ Xương Khớp",
-                                "image_url": IMAGE_COXUONGKHOP,
+                                "image_url": IMAGE_THANKINH,
                                 "subtitle": "Tìm hiểu thêm về khoa Cơ Xương Khớp.",
                                 "buttons": [
                                     {
                                         "type": "web_url",
-                                        "url": "https://bookingcare.vn/khoa-co-xuong-khop",
+                                        "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/2",
                                         "title": "Tìm hiểu thêm"
                                     }
                                 ]
@@ -212,7 +239,8 @@ let handleMessage = async (sender_psid, received_message) => {
                         }
                     }
                 };
-            } else {
+            }
+            else {
                 response = { "text": "Xin lỗi, tôi không hiểu yêu cầu của bạn. Bạn có thể tìm hỗ trợ tại: https://bookingcare.vn/ho-tro" };
             }
         }
