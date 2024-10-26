@@ -181,12 +181,10 @@ let getStartedTemplate = () => {
                             "payload": "FACILITIES",
                         },
                         {
-                            "type": "web_url",
-                            "url": "https://chatbot-3iqe.onrender.com/booking",
-                            // "webview_height_ratio": "tall",
-                            "title": "ĐẶT LỊCH TẠI ĐÂY",
-                            // "messenger_extensions": true
-                        }
+                            "type": "postback",
+                            "title": "CƠ SỞ Y TẾ",
+                            "payload": "FACILITIES",
+                        },
                     ],
                 }]
             }
