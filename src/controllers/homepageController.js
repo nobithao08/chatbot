@@ -475,6 +475,9 @@ async function handlePostback(sender_psid, received_postback) {
         case 'SPECIALTY':
             await chatBotService.handleSendSpecialty(sender_psid);
             break;
+        case 'BOOK':
+            await chatBotService.handleSendBook(sender_psid);
+            break;
         default:
             response = { "text": `Tôi không biết phản hồi với postback ${payload}` }
     }

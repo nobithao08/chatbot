@@ -3,6 +3,23 @@ import request from "request";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich'
+const IMAGE_CHUYENKHOA = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/140537-chuyen-khoa.png'
+const IMAGE_COSOYTE = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/141017-csyt.png'
+const BACSI = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/140234-bac-si.png'
+
+
+
+
+
+const IMAGE_COXUONGKHOP = 'https://bit.ly/nobithaoCoXuongKhop'
+const IMAGE_THANKINH = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101739-than-kinh.png'
+const IMAGE_TIEUHOA = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-tieu-hoa.png'
+const IMAGE_DALIEU = 'https://cdn.bookingcare.vn/fo/w1920/2023/12/26/101638-da-lieu.png'
+const IMAGE_MAT = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101638-mat.png'
+const IMAGE_TIMMACH = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-tim-mach.png'
+const IMAGE_TAIMUIHONG = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-tai-mui-hong.png'
+const IMAGE_SUCKHOATAMTHAN = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-suc-khoe-tam-than.png'
+const IMAGE_THANTIETNIEU = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101739-than-tiet-nieu.png'
 
 let callSendAPI = (sender_psid, response) => {
     let request_body = {
@@ -128,8 +145,8 @@ let getSpecialtyTemplate = () => {
                 "elements": [
                     {
                         "title": "Khoa Cơ Xương Khớp",
-                        "subtitle": "Khoa cơ xương khớp tại Hệ thống Booking Care bao gồm 3 chuyên khoa: Nội cơ xương khớp, Ngoại cơ xương khớp và Phục hồi chức năng.",
-                        "image_url": IMAGE_GET_STARTED,
+                        "subtitle": "Khoa Cơ Xương Khớp tại Hệ thống Booking Care bao gồm 3 chuyên khoa: Nội cơ xương khớp, Ngoại cơ xương khớp và Phục hồi chức năng.",
+                        "image_url": IMAGE_COXUONGKHOP,
                         "buttons": [
                             {
                                 "type": "postback",
@@ -140,7 +157,135 @@ let getSpecialtyTemplate = () => {
                     },
                     {
                         "title": "Khoa Thần kinh",
-                        "subtitle": "Khoa Thần kinh hệ thống Booking Care chuyên điều trị các bệnh thần kinh, can thiệp thần kinh, phẫu thuật thần kinh.",
+                        "subtitle": "Khoa Thần kinh tại hệ thống Booking Care chuyên điều trị các bệnh thần kinh, can thiệp thần kinh, phẫu thuật thần kinh.",
+                        "image_url": IMAGE_THANKINH,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Khoa Tiêu hóa",
+                        "subtitle": "Khoa tiêu hoá tại hệ thống Booking Care chuyên điều trị các bệnh về tiêu hoá, rối loạn chức năng tiêu hoá và các cơ quan nội tạng.",
+                        "image_url": IMAGE_TIEUHOA,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Khoa Da liễu",
+                        "subtitle": "Khoa Da liễu tại hệ thống Booking Care chuyên điều trị các bệnh về da và những phần phụ của da (tóc, móng, tuyến mồ hôi…)",
+                        "image_url": IMAGE_DALIEU,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Chuyên Khoa Mắt",
+                        "subtitle": "Chuyên Khoa Mắt tại hệ thống Booking Care chuyên khám toàn diện và quản lý một số bệnh như bệnh võng mạc đái tháo đường, thoái hóa hoàng điểm tuổi già, glô-côm, bệnh mắt ...",
+                        "image_url": IMAGE_MAT,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Khoa Tim mạch",
+                        "subtitle": "Khoa Tim mạch tại hệ thống Booking Care chuyên cấp cứu, chẩn đoán và điều trị các bệnh Tim mạch. Thực hiện các kỹ thuật chẩn đoán, can thiệp tim mạch và nhịp học ...",
+                        "image_url": IMAGE_TIMMACH,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Khoa Tai Mũi Họng",
+                        "subtitle": "Khoa Tai Mũi Họng tại hệ thống Booking Care chuyên tập trung điều trị chuyên sâu các bệnh lý liên quan đến Tai, Mũi, Họng và vùng đầu cổ",
+                        "image_url": IMAGE_TAIMUIHONG,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Khoa Sức khỏe tâm thần",
+                        "subtitle": "Khoa Sức khỏa tâm thần tại hệ thống Booking Care chuyên thực hiện quá trình thăm khám, điều trị các mặt bệnh: trầm cảm, rối loạn lo âu, mất ngủ, tự kỉ,..",
+                        "image_url": IMAGE_SUCKHOATAMTHAN,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Khoa Thận - Tiết niệu",
+                        "subtitle": "Khoa Thận - Tiết niệu tại hệ thống Booking Care chuyên khám bệnh, tư vấn, chẩn đoán, thu dung, cấp cứu, phẫu thuật, điều trị tất cả các bệnh lý đường tiết niệu trên: chấn thương, vết thương, các bệnh lý u đường tiết niệu trên, sỏi, viêm, dị dạng đường tiết niệu",
+                        "image_url": IMAGE_THANTIETNIEU,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+
+                ]
+            }
+        }
+    };
+    return response;
+}
+
+let handleSendBook = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            let response1 = getBookTemplate();
+
+            await callSendAPI(sender_psid, response1);
+
+
+            resolve('done');
+        } catch (e) {
+            console.error(e);
+            reject(e);
+        }
+    });
+};
+
+let getBookTemplate = () => {
+    let response = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [
+                    {
+                        "title": "Đặt lịch khám bệnh",
+                        "subtitle": "Đặt lịch khám bệnh tại hệ thống Booking Care vừa nhanh chóng, tiện lợi, an toàn và bảo mật",
                         "image_url": IMAGE_GET_STARTED,
                         "buttons": [
                             {
@@ -149,15 +294,52 @@ let getSpecialtyTemplate = () => {
                                 "payload": "MORE",
                             }
                         ],
+                    },
+                    {
+                        "title": "Chuyên khoa khám bệnh",
+                        "subtitle": "Chuyên khoa khám bệnh tại hệ thống Booking Care bao gồm 20 cơ sở y tế với đầy đủ các chuyên khoa ",
+                        "image_url": IMAGE_CHUYENKHOA,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Cơ sở y tế",
+                        "subtitle": "Cơ sở y tế tại hệ thống Booking Care trải dài khắp cả nước, giúp người dùng có thể đặt lịch khám một cách dễ dàng",
+                        "image_url": IMAGE_COSOYTE,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Bác sĩ",
+                        "subtitle": "Bác sĩ tại hệ thống Booking Care hội tụ các bác sĩ ưu tú hàng đầu, giàu kinh nghiệm trong công tác khám và điều trị bệnh ở tất cả các chuyên khoa",
+                        "image_url": IMAGE_BACSI,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
                     }
-
                 ]
             }
         }
     };
     return response;
 }
+
 module.exports = {
     handleGetStarted: handleGetStarted,
+    handleSendBook: handleSendBook,
     handleSendSpecialty: handleSendSpecialty
 };
