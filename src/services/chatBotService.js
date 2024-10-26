@@ -1,5 +1,6 @@
 require("dotenv").config();
 import request from "request";
+import homepageController from "../controllers/homepageController";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich'
@@ -102,6 +103,38 @@ let sendGetStratedTemplate = () => {
     return response;
 }
 
+async function handlePostback(sender_psid, received_postback) {
+    let response;
+    let payload = received_postback.payload;
+
+    switch (payload) {
+        case 'yes':
+            response = { "text": "Cảm ơn bạn đã cung cấp thông tin. Hệ thống sẽ sớm xem và phản hồi bạn sau. Vui lòng chờ!" };
+            break;
+        case 'no':
+            response = { "text": "Xin hãy thử gửi một hình ảnh khác." };
+            break;
+        case 'RESTART_CONVERSATION':
+        case 'GET_STARTED':
+            await chatBotService.handleGetStarted(sender_psid);
+            return; // Không cần tiếp tục
+        case 'BOOK':
+            response = await homepageController.handleBooking(sender_psid);
+            break;
+        case 'SPECIALTY':
+            response = await homepageController.handleSpecialty(sender_psid);
+            break;
+        case 'FACILITIES':
+            response = await homepageController.handleFacilities(sender_psid);
+            break;
+        default:
+            response = { "text": `Tôi không biết phản hồi với postback ${payload}` };
+    }
+
+    callSendAPI(sender_psid, response);
+}
+
 module.exports = {
-    handleGetStarted: handleGetStarted
+    handleGetStarted: handleGetStarted,
+    handlePostback: handlePostback
 };
