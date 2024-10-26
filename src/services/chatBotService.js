@@ -329,7 +329,7 @@ let handleSendBook = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let response1 = getBookTemplate();
+            let response1 = getBookTemplate(sender_psid);
             await callSendAPI(sender_psid, response1);
 
             resolve('done');
@@ -340,7 +340,7 @@ let handleSendBook = (sender_psid) => {
     });
 };
 
-let getBookTemplate = () => {
+let getBookTemplate = (senderID) => {
     let response = {
         "attachment": {
             "type": "template",
@@ -360,7 +360,7 @@ let getBookTemplate = () => {
                             },
                             {
                                 "type": "web_url",
-                                "url": `${process.env.URL_WEB_VIEW_BOOKING}`,
+                                "url": `${process.env.URL_WEB_VIEW_BOOKING}?senderID=${senderID}`,
                                 "webview_height_ratio": "tall",
                                 "title": "ĐẶT LỊCH NGAY",
                                 "messenger_extensions": true //false: open the webview in new tab
