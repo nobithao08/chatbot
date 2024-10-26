@@ -471,7 +471,9 @@ async function handlePostback(sender_psid, received_postback) {
         case 'RESTART_CONVERSATION':
         case 'GET_STARTED':
             await chatBotService.handleGetStarted(sender_psid);
-
+            break;
+        case 'SPECIALTY':
+            await chatBotService.handleSendSpecialty(sender_psid);
             break;
         default:
             response = { "text": `Tôi không biết phản hồi với postback ${payload}` }
@@ -575,22 +577,6 @@ let setupPersistentMenu = async (req, res) => {
         console.error("Unable to setup user profile: " + err);
         return res.status(500).send("Unable to setup user profile");
     }
-};
-
-// homepageController.js
-export const handleBooking = async (sender_psid) => {
-    // Trả về phản hồi cụ thể cho việc đặt lịch
-    return { "text": "Bạn muốn đặt lịch khám bệnh. Hãy chọn thời gian và chuyên khoa phù hợp!" };
-};
-
-export const handleSpecialty = async (sender_psid) => {
-    // Trả về phản hồi cho việc lựa chọn chuyên khoa
-    return { "text": "Bạn muốn xem thông tin về các chuyên khoa. Vui lòng chọn chuyên khoa bạn quan tâm!" };
-};
-
-export const handleFacilities = async (sender_psid) => {
-    // Trả về phản hồi cho các cơ sở y tế
-    return { "text": "Bạn muốn xem danh sách cơ sở y tế. Đây là danh sách các cơ sở gần nhất." };
 };
 
 

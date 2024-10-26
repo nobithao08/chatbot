@@ -1,6 +1,5 @@
 require("dotenv").config();
 import request from "request";
-import homepageController from "../controllers/homepageController";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich'
@@ -55,7 +54,7 @@ let handleGetStarted = (sender_psid) => {
             let username = await getFacebookUsername(sender_psid);
             let response1 = { "text": `Xin chào ${username}, đây là trang chính thức của BookingCare with Nobi. Tôi có thể giúp gì cho bạn?` };
 
-            let response2 = sendGetStratedTemplate();
+            let response2 = getStartedTemplate();
 
             await callSendAPI(sender_psid, response1);
 
@@ -69,7 +68,7 @@ let handleGetStarted = (sender_psid) => {
     });
 };
 
-let sendGetStratedTemplate = () => {
+let getStartedTemplate = () => {
     let response = {
         "attachment": {
             "type": "template",
@@ -103,38 +102,62 @@ let sendGetStratedTemplate = () => {
     return response;
 }
 
-async function handlePostback(sender_psid, received_postback) {
-    let response;
-    let payload = received_postback.payload;
+let handleSendSpecialty = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
 
-    switch (payload) {
-        case 'yes':
-            response = { "text": "Cảm ơn bạn đã cung cấp thông tin. Hệ thống sẽ sớm xem và phản hồi bạn sau. Vui lòng chờ!" };
-            break;
-        case 'no':
-            response = { "text": "Xin hãy thử gửi một hình ảnh khác." };
-            break;
-        case 'RESTART_CONVERSATION':
-        case 'GET_STARTED':
-            await chatBotService.handleGetStarted(sender_psid);
-            return; // Không cần tiếp tục
-        case 'BOOK':
-            response = await homepageController.handleBooking(sender_psid);
-            break;
-        case 'SPECIALTY':
-            response = await homepageController.handleSpecialty(sender_psid);
-            break;
-        case 'FACILITIES':
-            response = await homepageController.handleFacilities(sender_psid);
-            break;
-        default:
-            response = { "text": `Tôi không biết phản hồi với postback ${payload}` };
-    }
+            let response1 = getSpecialtyTemplate();
 
-    callSendAPI(sender_psid, response);
+            await callSendAPI(sender_psid, response1);
+
+
+            resolve('done');
+        } catch (e) {
+            console.error(e);
+            reject(e);
+        }
+    });
+};
+
+let getSpecialtyTemplate = () => {
+    let response = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [
+                    {
+                        "title": "Khoa Cơ Xương Khớp",
+                        "subtitle": "Khoa cơ xương khớp tại Hệ thống Booking Care bao gồm 3 chuyên khoa: Nội cơ xương khớp, Ngoại cơ xương khớp và Phục hồi chức năng.",
+                        "image_url": IMAGE_GET_STARTED,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Khoa Thần kinh",
+                        "subtitle": "Khoa Thần kinh hệ thống Booking Care chuyên điều trị các bệnh thần kinh, can thiệp thần kinh, phẫu thuật thần kinh.",
+                        "image_url": IMAGE_GET_STARTED,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "XEM CHI TIẾT",
+                                "payload": "MORE",
+                            }
+                        ],
+                    }
+
+                ]
+            }
+        }
+    };
+    return response;
 }
-
 module.exports = {
     handleGetStarted: handleGetStarted,
-    handlePostback: handlePostback
+    handleSendSpecialty: handleSendSpecialty
 };
