@@ -608,7 +608,7 @@ let handlePostBooking = async (req, res) => {
             `
         };
 
-        await chatbotService.callSendAPI(req.body.psid, response1);
+        await chatBotService.callSendAPI(req.body.psid, response1);
 
         return res.status(200).json({
             message: "ok"
