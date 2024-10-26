@@ -7,7 +7,6 @@ const IMAGE_CHUYENKHOA = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/140537-c
 const IMAGE_COSOYTE = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/141017-csyt.png'
 const IMAGE_BACSI = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/140234-bac-si.png'
 
-
 const IMAGE_COXUONGKHOP = 'https://bit.ly/nobithaoCoXuongKhop'
 const IMAGE_THANKINH = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101739-than-kinh.png'
 const IMAGE_TIEUHOA = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-tieu-hoa.png'
@@ -30,13 +29,16 @@ const IMAGE_HONGDUC = 'https://hongduchospital.vn/public/userfiles/logo-share-1.
 const IMAGE_FV = 'https://vcdn1-kinhdoanh.vnecdn.net/2023/07/13/benh-vien-fv-da-chu-dong-san-s-7700-3312-1689242709.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=qSf1FO2H9iTd_XtWKdhL3g'
 
 
-let callSendAPI = (sender_psid, response) => {
+let callSendAPI = async (sender_psid, response) => {
     let request_body = {
         "recipient": {
             "id": sender_psid
         },
         "message": response
-    };
+    }
+
+    await markMessageSeen(sender_psid)
+    await sendTypingOn(sender_psid)
 
     request({
         "uri": "https://graph.facebook.com/v6.0/me/messages",
@@ -51,6 +53,64 @@ let callSendAPI = (sender_psid, response) => {
         }
     });
 }
+
+let sendTypingOn = (sender_psid) => {
+    return new Promise((resolve, reject) => {
+        try {
+            let request_body = {
+                "recipient": {
+                    "id": sender_psid
+                },
+                "sender_action": "typing_on"
+            };
+
+            // Send the HTTP request to the Messenger Platform
+            request({
+                "uri": "https://graph.facebook.com/v6.0/me/messages",
+                "qs": { "access_token": PAGE_ACCESS_TOKEN },
+                "method": "POST",
+                "json": request_body
+            }, (err, res, body) => {
+                if (!err) {
+                    resolve('done!')
+                } else {
+                    reject("Unable to send message:" + err);
+                }
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+let markMessageSeen = (sender_psid) => {
+    return new Promise((resolve, reject) => {
+        try {
+            let request_body = {
+                "recipient": {
+                    "id": sender_psid
+                },
+                "sender_action": "mark_seen"
+            };
+
+            // Send the HTTP request to the Messenger Platform
+            request({
+                "uri": "https://graph.facebook.com/v6.0/me/messages",
+                "qs": { "access_token": PAGE_ACCESS_TOKEN },
+                "method": "POST",
+                "json": request_body
+            }, (err, res, body) => {
+                if (!err) {
+                    resolve('done!')
+                } else {
+                    reject("Unable to send message:" + err);
+                }
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
 
 let getFacebookUsername = (sender_psid) => {
     return new Promise((resolve, reject) => {
@@ -495,5 +555,5 @@ module.exports = {
     handleGetStarted: handleGetStarted,
     handleSendBook: handleSendBook,
     handleSendSpecialty: handleSendSpecialty,
-    handleSendFacility: handleSendFacility
+    handleSendFacility: handleSendFacility,
 };
