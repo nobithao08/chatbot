@@ -176,13 +176,10 @@ let getStartedTemplate = () => {
                             "payload": "SPECIALTY",
                         },
                         {
-                            "type": "web_url",
-                            "url": `${process.env.URL_WEB_VIEW_BOOKING}`,
-                            "webview_height_ratio": "tall",
-                            "title": "ĐẶT LỊCH TẠI ĐÂY",
-                            "messenger_extensions": true //false: open the webview in new tab
+                            "type": "postback",
+                            "title": "CƠ SỞ Y TẾ",
+                            "payload": "FACILITIES",
                         }
-
                     ],
                 }]
             }
@@ -359,6 +356,14 @@ let getBookTemplate = () => {
                                 "type": "web_url",
                                 "url": "https://nobithao-fe-bookingcare.vercel.app/home",
                                 "title": "XEM CHI TIẾT"
+
+                            },
+                            {
+                                "type": "web_url",
+                                "url": `${process.env.URL_WEB_VIEW_BOOKING}`,
+                                "webview_height_ratio": "tall",
+                                "title": "ĐẶT LỊCH NGAY",
+                                "messenger_extensions": true //false: open the webview in new tab
                             }
                         ],
                     },
