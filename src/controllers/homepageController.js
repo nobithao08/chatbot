@@ -25,6 +25,10 @@ let getHomepage = (req, res) => {
     return res.render("homepage.ejs");
 };
 
+let handleBooking = (req, res) => {
+    return res.render("booking.ejs");
+};
+
 let getWebhook = (req, res) => {
     let VERIFY_TOKEN = MY_VERIFY_TOKEN;
     let mode = req.query['hub.mode'];
@@ -584,10 +588,6 @@ let setupPersistentMenu = async (req, res) => {
         console.error("Unable to setup user profile: " + err);
         return res.status(500).send("Unable to setup user profile");
     }
-};
-
-let handleBooking = (req, res) => {
-    return res.render("booking.ejs");
 };
 
 module.exports = {
