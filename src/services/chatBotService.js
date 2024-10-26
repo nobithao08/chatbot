@@ -18,6 +18,17 @@ const IMAGE_TAIMUIHONG = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-t
 const IMAGE_SUCKHOATAMTHAN = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-suc-khoe-tam-than.png'
 const IMAGE_THANTIETNIEU = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101739-than-tiet-nieu.png'
 
+const IMAGE_THUCUC = 'https://thanhnienviet.mediacdn.vn/thumb_w/480/hinh-anh/2023/06/05/156/image-20230605181957-1.jpeg'
+const IMAGE_QUOCTECITY = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2i2lxMLZHGiMn5mamzUo4_yHLlxnpofig2Q&s'
+const IMAGE_HUNGVIET = 'https://congchungnguyenhue.com/Uploaded/Images/Original/2023/11/22/bvungbuouhungviet_2211103042.jpg'
+const IMAGE_GOLDEN = 'https://taimuihongsg.com/wp-content/uploads/2024/02/phong-kham-da-khoa-golden-healthcare-chuyen-cung-cap-dich-vu-kham-toan-dien-1.jpeg'
+const IMAGE_ANVIET = 'https://benhvienanviet.com/upload/photos/shares/633ba53a0e67b.jpg'
+const IMAGE_MAIA = 'https://suckhoeviet.org.vn/stores/news_dataimages/2024/042024/10/13/120240410130923.jpg?rt=20240410130925'
+const IMAGE_HELLO = 'https://topdanangaz.com/wp-content/uploads/2023/12/phong-kham-than-kinh-da-nang_5.jpg'
+const IMAGE_HONGDUC = 'https://hongduchospital.vn/public/userfiles/logo-share-1.jpg'
+const IMAGE_FV = 'https://vcdn1-kinhdoanh.vnecdn.net/2023/07/13/benh-vien-fv-da-chu-dong-san-s-7700-3312-1689242709.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=qSf1FO2H9iTd_XtWKdhL3g'
+
+
 let callSendAPI = (sender_psid, response) => {
     let request_body = {
         "recipient": {
@@ -119,11 +130,8 @@ let getStartedTemplate = () => {
 let handleSendSpecialty = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-
             let response1 = getSpecialtyTemplate();
-
             await callSendAPI(sender_psid, response1);
-
 
             resolve('done');
         } catch (e) {
@@ -146,9 +154,9 @@ let getSpecialtyTemplate = () => {
                         "image_url": IMAGE_COXUONGKHOP,
                         "buttons": [
                             {
-                                "type": "postback",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/1",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_COXUONGKHOP",
                             }
                         ],
                     },
@@ -158,9 +166,9 @@ let getSpecialtyTemplate = () => {
                         "image_url": IMAGE_THANKINH,
                         "buttons": [
                             {
-                                "type": "postback",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/2",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_THANKINH",
                             }
                         ],
                     },
@@ -170,9 +178,9 @@ let getSpecialtyTemplate = () => {
                         "image_url": IMAGE_TIEUHOA,
                         "buttons": [
                             {
-                                "type": "postback",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/3",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_TIEUHOA",
                             }
                         ],
                     },
@@ -182,9 +190,9 @@ let getSpecialtyTemplate = () => {
                         "image_url": IMAGE_DALIEU,
                         "buttons": [
                             {
-                                "type": "postback",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/4",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_DALIEU",
                             }
                         ],
                     },
@@ -194,9 +202,9 @@ let getSpecialtyTemplate = () => {
                         "image_url": IMAGE_MAT,
                         "buttons": [
                             {
-                                "type": "postback",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/5",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_MAT",
                             }
                         ],
                     },
@@ -206,9 +214,9 @@ let getSpecialtyTemplate = () => {
                         "image_url": IMAGE_TIMMACH,
                         "buttons": [
                             {
-                                "type": "postback",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/6",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_TIMMACH",
                             }
                         ],
                     },
@@ -218,9 +226,9 @@ let getSpecialtyTemplate = () => {
                         "image_url": IMAGE_TAIMUIHONG,
                         "buttons": [
                             {
-                                "type": "postback",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/7",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_TAIMUIHONG",
                             }
                         ],
                     },
@@ -230,9 +238,9 @@ let getSpecialtyTemplate = () => {
                         "image_url": IMAGE_SUCKHOATAMTHAN,
                         "buttons": [
                             {
-                                "type": "postback",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/8",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_SUCKHOATAMTHAN",
                             }
                         ],
                     },
@@ -242,9 +250,9 @@ let getSpecialtyTemplate = () => {
                         "image_url": IMAGE_THANTIETNIEU,
                         "buttons": [
                             {
-                                "type": "postback",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-specialty/9",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_THANTIETNIEU",
                             }
                         ],
                     },
@@ -261,9 +269,7 @@ let handleSendBook = (sender_psid) => {
         try {
 
             let response1 = getBookTemplate();
-
             await callSendAPI(sender_psid, response1);
-
 
             resolve('done');
         } catch (e) {
@@ -312,7 +318,7 @@ let getBookTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_COSOYTE",
+                                "payload": "FACILITIES",
                             }
                         ],
                     },
@@ -322,9 +328,158 @@ let getBookTemplate = () => {
                         "image_url": IMAGE_BACSI,
                         "buttons": [
                             {
-                                "type": "postback",
-                                "title": "XEM CHI TIẾT",
-                                "payload": "MORE_BACSI",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/all-doctors",
+                                "title": "XEM CHI TIẾT"
+                            }
+                        ],
+                    }
+                ]
+            }
+        }
+    };
+    return response;
+}
+
+let handleSendFacility = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            let response1 = getFacilityTemplate();
+            await callSendAPI(sender_psid, response1);
+
+            resolve('done');
+        } catch (e) {
+            console.error(e);
+            reject(e);
+        }
+    });
+};
+
+let getFacilityTemplate = () => {
+    let response = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [
+                    {
+                        "title": "Hệ thống Y tế Thu Cúc TCI",
+                        "subtitle": "Hệ thống Thu Cúc gồm các đơn vị bệnh viện và phòng khám đa khoa, khám và điều trị nhiều nhóm bệnh khác nhau như: Cơ xương khớp, Tim mạch, Tiêu hóa, Tai mũi họng ...",
+                        "image_url": IMAGE_THUCUC,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-clinic/1",
+                                "title": "XEM CHI TIẾT"
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Bệnh viện Quốc tế City",
+                        "subtitle": "Bệnh viện Quốc tế City (hay được gọi tắt là CIH) nằm tại Khu y tế kỹ thuật cao Hoa Lâm, Shangrila với quy mô rộng lớn lên đến 320 giường bệnh. Bên cạnh đó, bệnh ...",
+                        "image_url": IMAGE_QUOCTECITY,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-clinic/2",
+                                "title": "XEM CHI TIẾT"
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Bệnh viện Ung bướu Hưng Việt",
+                        "subtitle": "Bệnh viện Hưng Việt tên đầy đủ là Bệnh viện Ung bướu Hưng Việt chuyên sâu khám, điều trị các nhóm bệnh ung thư. Đây cũng là bệnh viện chuyên khoa ung bướu tư ...",
+                        "image_url": IMAGE_COSOYTE,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-clinic/3",
+                                "title": "XEM CHI TIẾT"
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Phòng khám Đa khoa Quốc tế Golden Healthcare",
+                        "subtitle": "Phòng khám Đa khoa Quốc tế Golden Healthcare · Được lựa chọn khám với các bác sĩ chuyên khoa giàu kinh nghiệm · Hỗ trợ đặt khám trực tuyến trước khi đi khám ( ...",
+                        "image_url": IMAGE_BACSI,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-clinic/4",
+                                "title": "XEM CHI TIẾT"
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Bệnh viện Đa khoa An Việt",
+                        "subtitle": "Bệnh viện Đa khoa An Việt là bệnh viện tư nhân được xây dựng và đi vào hoạt động kể từ năm 2016. Là bệnh viện đa khoa, song thế mạnh đặc biệt ở đây là chẩn ...",
+                        "image_url": IMAGE_BACSI,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-clinic/5",
+                                "title": "XEM CHI TIẾT"
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Phòng khám Chuyên khoa Da liễu Maia&Maia",
+                        "subtitle": "Phòng khám Chuyên khoa Da liễu Maia&Maia thành lập từ năm 2010, là đơn vị chuyên thăm khám, điều trị các bệnh lý về da và thẩm mỹ công nghệ cao.",
+                        "image_url": IMAGE_BACSI,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-clinic/6",
+                                "title": "XEM CHI TIẾT"
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Phòng khám Hello Doctor",
+                        "subtitle": "Hệ thống phòng khám Hello Doctor ra đời với sứ mệnh Mang Sức Khỏe đến cuộc sống. Hello Doctor cung cấp dịch vụ khám và điệu trị chất lượng cao đa chuyên khoa.",
+                        "image_url": IMAGE_BACSI,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-clinic/7",
+                                "title": "XEM CHI TIẾT"
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Sunshine Eye Care",
+                        "subtitle": "Sunshine Eye Care là trung tâm nhãn khoa hàng đầu tại Việt Nam, nổi bật với chuyên môn và quy trình khám điều trị hiệu quả nhất dành cho bệnh nhân.",
+                        "image_url": IMAGE_BACSI,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-clinic/8",
+                                "title": "XEM CHI TIẾT"
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Bệnh viện Đa khoa Hồng Đức",
+                        "subtitle": "Hệ thống Bệnh Viện Đa Khoa Hồng Đức là địa chỉ uy tín về khám chữa bệnh, với đội ngũ chuyên gia - bác sĩ hàng đầu, trang thiết bị hiện đại, cùng các phác đồ ...",
+                        "image_url": IMAGE_BACSI,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-clinic/9",
+                                "title": "XEM CHI TIẾT"
+                            }
+                        ],
+                    },
+                    {
+                        "title": "Bệnh viện FV",
+                        "subtitle": "Bệnh viện FV có đội ngũ bác sĩ được đào tạo chuyên môn và trang thiết bị để thực hiện cả phẫu thuật mở và phẫu thuật nội soi. Phẫu thuật nội soi, còn gọi là ...",
+                        "image_url": IMAGE_BACSI,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/detail-clinic/10",
+                                "title": "XEM CHI TIẾT"
                             }
                         ],
                     }
@@ -338,5 +493,6 @@ let getBookTemplate = () => {
 module.exports = {
     handleGetStarted: handleGetStarted,
     handleSendBook: handleSendBook,
-    handleSendSpecialty: handleSendSpecialty
+    handleSendSpecialty: handleSendSpecialty,
+    handleSendFacility: handleSendFacility
 };

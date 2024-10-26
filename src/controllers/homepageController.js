@@ -478,6 +478,10 @@ async function handlePostback(sender_psid, received_postback) {
         case 'BOOK':
             await chatBotService.handleSendBook(sender_psid);
             break;
+        case 'FACILITIES':
+            await chatBotService.handleSendFacility(sender_psid);
+            break;
+
         default:
             response = { "text": `Tôi không biết phản hồi với postback ${payload}` }
     }
