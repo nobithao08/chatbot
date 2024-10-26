@@ -281,20 +281,6 @@ let getBookTemplate = () => {
                 "template_type": "generic",
                 "elements": [
                     {
-
-
-                        // {
-                        //     "title": "Đặt lịch khám bệnh",
-                        //     "image_url": IMAGE_GET_STARTED,
-                        //     "subtitle": "Đặt lịch khám bệnh tại Booking Care",
-                        //     "buttons": [
-                        //         {
-                        //             "type": "web_url",
-                        //             "url": "https://nobithao-fe-bookingcare.vercel.app/home",
-                        //             "title": "Xem chi tiết"
-                        //         }
-                        //     ]
-                        // }
                         "title": "Đặt lịch khám bệnh",
                         "subtitle": "Đặt lịch khám bệnh tại hệ thống Booking Care vừa nhanh chóng, tiện lợi, an toàn và bảo mật",
                         "image_url": IMAGE_GET_STARTED,
@@ -302,7 +288,7 @@ let getBookTemplate = () => {
                             {
                                 "type": "web_url",
                                 "url": "https://nobithao-fe-bookingcare.vercel.app/home",
-                                "title": "Xem chi tiết"
+                                "title": "XEM CHI TIẾT"
                             }
                         ],
                     },
@@ -314,7 +300,7 @@ let getBookTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE_CHUYENKHOA",
+                                "payload": "SPECIALTY",
                             }
                         ],
                     },
