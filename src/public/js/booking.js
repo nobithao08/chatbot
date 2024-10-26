@@ -14,7 +14,7 @@ window.extAsyncInit = function () {
             // success
             //set psid to input
             $("#psid").val(thread_context.psid);
-            handleClickButtonReserveTable();
+            handleClickButtonBooking();
         },
         function error(err) {
             // error
@@ -48,8 +48,8 @@ function validateInputFields() {
 }
 
 
-function handleClickButtonReserveTable() {
-    $("#btnReserveTable").on("click", function (e) {
+function handleClickButtonBooking() {
+    $("#btnBooking").on("click", function (e) {
         let check = validateInputFields(); //return true or false
 
         let data = {
@@ -70,7 +70,7 @@ function handleClickButtonReserveTable() {
 
             //send data to node.js server 
             $.ajax({
-                url: `${window.location.origin}/reserve-table-ajax`,
+                url: `${window.location.origin}/booking-ajax`,
                 method: "POST",
                 data: data,
                 success: function (data) {
