@@ -5,10 +5,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich'
 const IMAGE_CHUYENKHOA = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/140537-chuyen-khoa.png'
 const IMAGE_COSOYTE = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/141017-csyt.png'
-const BACSI = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/140234-bac-si.png'
-
-
-
+const IMAGE_BACSI = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/140234-bac-si.png'
 
 
 const IMAGE_COXUONGKHOP = 'https://bit.ly/nobithaoCoXuongKhop'
@@ -151,7 +148,7 @@ let getSpecialtyTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_COXUONGKHOP",
                             }
                         ],
                     },
