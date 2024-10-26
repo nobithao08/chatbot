@@ -182,7 +182,7 @@ let getStartedTemplate = () => {
                         },
                         {
                             "type": "web_url",
-                            "url": `${process.env.URL_WEB_VIEW_BOOKING}`,
+                            "url": "https://chatbot-3iqe.onrender.com/booking",
                             "webview_height_ratio": "tall",
                             "title": "ĐẶT LỊCH TẠI ĐÂY",
                             "messenger_extensions": true //false: open the webview in new tab
