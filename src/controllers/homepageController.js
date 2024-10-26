@@ -586,6 +586,9 @@ let setupPersistentMenu = async (req, res) => {
     }
 };
 
+let handleBooking = (req, res) => {
+    return res.render('booking.ejs');
+}
 
 module.exports = {
     getHomepage,
@@ -593,4 +596,5 @@ module.exports = {
     postWebhook,
     setupProfile,
     setupPersistentMenu,
+    handleBooking
 };
