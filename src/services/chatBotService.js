@@ -2,8 +2,6 @@ require("dotenv").config();
 import request from "request";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-const URL_WEB_VIEW_BOOKING = process.env.URL_WEB_VIEW_BOOKING;
-
 const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich'
 const IMAGE_CHUYENKHOA = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/140537-chuyen-khoa.png'
 const IMAGE_COSOYTE = 'https://cdn.bookingcare.vn/fo/w384/2023/11/01/141017-csyt.png'
@@ -184,7 +182,7 @@ let getStartedTemplate = () => {
                         },
                         {
                             "type": "web_url",
-                            "url": URL_WEB_VIEW_BOOKING,
+                            "url": `${process.env.URL_WEB_VIEW_BOOKING}`,
                             "webview_height_ratio": "tall",
                             "title": "ĐẶT LỊCH TẠI ĐÂY",
                             "messenger_extensions": true //false: open the webview in new tab
