@@ -25,6 +25,7 @@ const IMAGE_GOLDEN = 'https://taimuihongsg.com/wp-content/uploads/2024/02/phong-
 const IMAGE_ANVIET = 'https://benhvienanviet.com/upload/photos/shares/633ba53a0e67b.jpg'
 const IMAGE_MAIA = 'https://suckhoeviet.org.vn/stores/news_dataimages/2024/042024/10/13/120240410130923.jpg?rt=20240410130925'
 const IMAGE_HELLO = 'https://topdanangaz.com/wp-content/uploads/2023/12/phong-kham-than-kinh-da-nang_5.jpg'
+const IMAGE_SUNSHINE = 'https://cdn.youmed.vn/photos/00e5fcd5-c6f2-4b76-a7ae-72c20c09bff6.jpg?aspect_ratio=1:0.53'
 const IMAGE_HONGDUC = 'https://hongduchospital.vn/public/userfiles/logo-share-1.jpg'
 const IMAGE_FV = 'https://vcdn1-kinhdoanh.vnecdn.net/2023/07/13/benh-vien-fv-da-chu-dong-san-s-7700-3312-1689242709.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=qSf1FO2H9iTd_XtWKdhL3g'
 
@@ -390,7 +391,7 @@ let getFacilityTemplate = () => {
                     {
                         "title": "Bệnh viện Ung bướu Hưng Việt",
                         "subtitle": "Bệnh viện Hưng Việt tên đầy đủ là Bệnh viện Ung bướu Hưng Việt chuyên sâu khám, điều trị các nhóm bệnh ung thư. Đây cũng là bệnh viện chuyên khoa ung bướu tư ...",
-                        "image_url": IMAGE_COSOYTE,
+                        "image_url": IMAGE_HUNGVIET,
                         "buttons": [
                             {
                                 "type": "web_url",
@@ -402,7 +403,7 @@ let getFacilityTemplate = () => {
                     {
                         "title": "Phòng khám Đa khoa Quốc tế Golden Healthcare",
                         "subtitle": "Phòng khám Đa khoa Quốc tế Golden Healthcare · Được lựa chọn khám với các bác sĩ chuyên khoa giàu kinh nghiệm · Hỗ trợ đặt khám trực tuyến trước khi đi khám ( ...",
-                        "image_url": IMAGE_BACSI,
+                        "image_url": IMAGE_GOLDEN,
                         "buttons": [
                             {
                                 "type": "web_url",
@@ -414,7 +415,7 @@ let getFacilityTemplate = () => {
                     {
                         "title": "Bệnh viện Đa khoa An Việt",
                         "subtitle": "Bệnh viện Đa khoa An Việt là bệnh viện tư nhân được xây dựng và đi vào hoạt động kể từ năm 2016. Là bệnh viện đa khoa, song thế mạnh đặc biệt ở đây là chẩn ...",
-                        "image_url": IMAGE_BACSI,
+                        "image_url": IMAGE_ANVIET,
                         "buttons": [
                             {
                                 "type": "web_url",
@@ -426,7 +427,7 @@ let getFacilityTemplate = () => {
                     {
                         "title": "Phòng khám Chuyên khoa Da liễu Maia&Maia",
                         "subtitle": "Phòng khám Chuyên khoa Da liễu Maia&Maia thành lập từ năm 2010, là đơn vị chuyên thăm khám, điều trị các bệnh lý về da và thẩm mỹ công nghệ cao.",
-                        "image_url": IMAGE_BACSI,
+                        "image_url": IMAGE_MAIA,
                         "buttons": [
                             {
                                 "type": "web_url",
@@ -438,7 +439,7 @@ let getFacilityTemplate = () => {
                     {
                         "title": "Phòng khám Hello Doctor",
                         "subtitle": "Hệ thống phòng khám Hello Doctor ra đời với sứ mệnh Mang Sức Khỏe đến cuộc sống. Hello Doctor cung cấp dịch vụ khám và điệu trị chất lượng cao đa chuyên khoa.",
-                        "image_url": IMAGE_BACSI,
+                        "image_url": IMAGE_HELLO,
                         "buttons": [
                             {
                                 "type": "web_url",
@@ -450,7 +451,7 @@ let getFacilityTemplate = () => {
                     {
                         "title": "Sunshine Eye Care",
                         "subtitle": "Sunshine Eye Care là trung tâm nhãn khoa hàng đầu tại Việt Nam, nổi bật với chuyên môn và quy trình khám điều trị hiệu quả nhất dành cho bệnh nhân.",
-                        "image_url": IMAGE_BACSI,
+                        "image_url": IMAGE_SUNSHINE,
                         "buttons": [
                             {
                                 "type": "web_url",
@@ -462,7 +463,7 @@ let getFacilityTemplate = () => {
                     {
                         "title": "Bệnh viện Đa khoa Hồng Đức",
                         "subtitle": "Hệ thống Bệnh Viện Đa Khoa Hồng Đức là địa chỉ uy tín về khám chữa bệnh, với đội ngũ chuyên gia - bác sĩ hàng đầu, trang thiết bị hiện đại, cùng các phác đồ ...",
-                        "image_url": IMAGE_BACSI,
+                        "image_url": IMAGE_HONGDUC,
                         "buttons": [
                             {
                                 "type": "web_url",
@@ -474,7 +475,7 @@ let getFacilityTemplate = () => {
                     {
                         "title": "Bệnh viện FV",
                         "subtitle": "Bệnh viện FV có đội ngũ bác sĩ được đào tạo chuyên môn và trang thiết bị để thực hiện cả phẫu thuật mở và phẫu thuật nội soi. Phẫu thuật nội soi, còn gọi là ...",
-                        "image_url": IMAGE_BACSI,
+                        "image_url": IMAGE_FV,
                         "buttons": [
                             {
                                 "type": "web_url",
