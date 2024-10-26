@@ -360,7 +360,7 @@ let getBookTemplate = (senderID) => {
                             },
                             {
                                 "type": "web_url",
-                                "url": `${process.env.URL_WEB_VIEW_BOOKING}?senderID=${senderID}`,
+                                "url": `${process.env.URL_WEB_VIEW_BOOKING}/${senderID}`,
                                 "webview_height_ratio": "tall",
                                 "title": "ĐẶT LỊCH NGAY",
                                 "messenger_extensions": true //false: open the webview in new tab

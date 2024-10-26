@@ -11,7 +11,7 @@ let initWebRoutes = (app) => {
     router.post("/setup-profile", homepageController.setupProfile);
     router.post("/setup-persistent-menu", homepageController.setupPersistentMenu);
 
-    router.get("/booking", homepageController.handleBooking);
+    router.get("/booking/:senderId", homepageController.handleBooking);
     router.post("/booking-ajax", homepageController.handlePostBooking);
 
 
