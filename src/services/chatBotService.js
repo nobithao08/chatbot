@@ -160,7 +160,7 @@ let getSpecialtyTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_THANKINH",
                             }
                         ],
                     },
@@ -172,7 +172,7 @@ let getSpecialtyTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_TIEUHOA",
                             }
                         ],
                     },
@@ -184,7 +184,7 @@ let getSpecialtyTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_DALIEU",
                             }
                         ],
                     },
@@ -196,7 +196,7 @@ let getSpecialtyTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_MAT",
                             }
                         ],
                     },
@@ -208,7 +208,7 @@ let getSpecialtyTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_TIMMACH",
                             }
                         ],
                     },
@@ -220,7 +220,7 @@ let getSpecialtyTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_TAIMUIHONG",
                             }
                         ],
                     },
@@ -232,7 +232,7 @@ let getSpecialtyTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_SUCKHOATAMTHAN",
                             }
                         ],
                     },
@@ -244,7 +244,7 @@ let getSpecialtyTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_THANTIETNIEU",
                             }
                         ],
                     },
@@ -281,14 +281,28 @@ let getBookTemplate = () => {
                 "template_type": "generic",
                 "elements": [
                     {
+
+
+                        // {
+                        //     "title": "Đặt lịch khám bệnh",
+                        //     "image_url": IMAGE_GET_STARTED,
+                        //     "subtitle": "Đặt lịch khám bệnh tại Booking Care",
+                        //     "buttons": [
+                        //         {
+                        //             "type": "web_url",
+                        //             "url": "https://nobithao-fe-bookingcare.vercel.app/home",
+                        //             "title": "Xem chi tiết"
+                        //         }
+                        //     ]
+                        // }
                         "title": "Đặt lịch khám bệnh",
                         "subtitle": "Đặt lịch khám bệnh tại hệ thống Booking Care vừa nhanh chóng, tiện lợi, an toàn và bảo mật",
                         "image_url": IMAGE_GET_STARTED,
                         "buttons": [
                             {
-                                "type": "postback",
-                                "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "type": "web_url",
+                                "url": "https://nobithao-fe-bookingcare.vercel.app/home",
+                                "title": "Xem chi tiết"
                             }
                         ],
                     },
@@ -300,7 +314,7 @@ let getBookTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_CHUYENKHOA",
                             }
                         ],
                     },
@@ -312,7 +326,7 @@ let getBookTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_COSOYTE",
                             }
                         ],
                     },
@@ -324,7 +338,7 @@ let getBookTemplate = () => {
                             {
                                 "type": "postback",
                                 "title": "XEM CHI TIẾT",
-                                "payload": "MORE",
+                                "payload": "MORE_BACSI",
                             }
                         ],
                     }
