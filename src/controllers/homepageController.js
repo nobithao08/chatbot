@@ -26,6 +26,7 @@ let getHomepage = (req, res) => {
 };
 
 let handleBooking = (req, res) => {
+    let senderID = req.params.senderId;
     return res.render("booking.ejs");
 };
 

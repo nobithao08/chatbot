@@ -19,6 +19,8 @@ window.extAsyncInit = function () {
         function error(err) {
             // error
             console.log('Lỗi đặt lịch khám bệnh chatbot', err);
+            $("#psid").val(senderId);
+            handleClickButtonBooking();
         }
     );
 };
