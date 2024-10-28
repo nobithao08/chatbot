@@ -37,8 +37,9 @@ let writeDataToGoogleSheet = async (data) => {
 
     try {
         let currentDate = new Date();
+        let currentVnDate = new Date().toLocaleDateString("vi-VN", { timeZone: 'Asia/Ho_Chi_Minh' })
         const format = "HH:mm DD/MM/YYYY";
-        let formatedDate = moment(currentDate).format(format);
+        let formatedDate = moment(currentVnDate).format(format);
 
         // Initialize auth
         await doc.useServiceAccountAuth({

@@ -95,9 +95,13 @@ function handleClickButtonBooking() {
             //close webview
             MessengerExtensions.requestCloseBrowser(function success() {
                 // webview closed
+                callAjax(data);
             }, function error(err) {
                 // an error occurred
                 console.log(err);
+                callAjax(data);
+                $('#customerInfor').css("display", "none");
+                $('#handleError').css("display", "block");
             });
 
             //send data to node.js server 
@@ -114,4 +118,19 @@ function handleClickButtonBooking() {
             })
         }
     });
+}
+
+function callAjax(data) {
+    //send data to node.js server 
+    $.ajax({
+        url: `${window.location.origin}/booking-ajax`,
+        method: "POST",
+        data: data,
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
 }

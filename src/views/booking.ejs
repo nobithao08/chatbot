@@ -23,12 +23,17 @@
     <!-- Load custom Javascript and CSS-->
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/booking.js"></script>
-
+    <style>
+        .handle-error {
+            display: none;
+            padding: 15px;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container fix-height">
-        <div class="row">
+        <div class="row" id="customerInfor">
             <div class="col-12">
                 <div class="text-center mt-3">
                     <span class="title">Thông tin khách hàng</span>
@@ -76,6 +81,10 @@
                 <button class="btn btn-primary" id="btnBooking"> ĐẶT LỊCH </button>
             </div>
 
+        </div>
+        <div class="row handle-error" id="hanleError">
+            <h5>Thông tin của bạn đã được ghi nhận thành công! Hệ thống sẽ sớm kiểm tra và gửi email sau khi xác nhận
+                thành công</h5>
         </div>
 
     </div>
