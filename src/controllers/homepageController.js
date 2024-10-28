@@ -26,8 +26,10 @@ let getHomepage = (req, res) => {
 };
 
 let handleBooking = (req, res) => {
-    let senderID = req.params.senderId;
-    return res.render("booking.ejs");
+    let senderId = req.params.senderId;
+    return res.render("booking.ejs", {
+        senderId: senderId
+    });
 };
 
 let getWebhook = (req, res) => {
