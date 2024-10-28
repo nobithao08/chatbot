@@ -41,7 +41,7 @@ let writeDataToGoogleSheet = async (data) => {
         });
 
         // Tạo đối tượng GoogleSpreadsheet
-        const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+        const doc = new GoogleSpreadsheet(SPREADSHEET_ID, serviceAccountAuth);
 
         // Sử dụng xác thực
         await doc.useServiceAccountAuth({
