@@ -1,9 +1,14 @@
 require("dotenv").config();
 import request from "request";
 import chatBotService from "../services/chatBotService";
+import moment from "moment";
+const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
+const GOOGLE_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY;
 
 const IMAGE_GET_STARTED = 'https://bit.ly/nobithaoDatLich'
 const IMAGE_ALL_DOCTOR = 'https://bit.ly/nobithaoAllBacSi'
@@ -21,6 +26,35 @@ const IMAGE_TAIMUIHONG = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-t
 const IMAGE_SUCKHOATAMTHAN = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101713-suc-khoe-tam-than.png'
 const IMAGE_THANTIETNIEU = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101739-than-tiet-nieu.png'
 
+let writeDataToGoogleSheet = async (data) => {
+
+    let currentDate = new Date();
+    const format = "HH:mm DD/MM/YYYY"
+    let formatedDate = moment(currentDate).format(format);
+
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+
+    await doc.useServiceAccountAuth({
+        client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        private_key: GOOGLE_PRIVATE_KEY,
+    });
+
+    await doc.loadInfo(); // loads document properties and worksheets
+    const sheet = doc.sheetsByIndex[0]; // or use `doc.sheetsById[id]` or `doc.sheetsByTitle[title]`
+
+    await sheet.addRow(
+        {
+            "Tên Facebook": data.username,
+            "Địa chỉ Email": data.email,
+            "Số điện thoại": data.phoneNumber,
+            "Năm sinh": data.birthYear,
+            "Giới tính": data.gender,
+            "Lý do đặt lịch": data.reason,
+            "Thời gian": formatedDate,
+            "Tên khách hàng": data.customerName
+        });
+
+}
 let getHomepage = (req, res) => {
     return res.render("homepage.ejs");
 };
@@ -595,9 +629,20 @@ let setupPersistentMenu = async (req, res) => {
 
 let handlePostBooking = async (req, res) => {
     try {
+        let username = await chatBotService.getFacebookUsername(req.body.psid);
+        let data = {
+            username: username,
+            email: req.body.email,
+            phoneNumber: req.body.phoneNumber,
+            birthYear: req.body.birthYear,
+            gender: req.body.gender,
+            reason: req.body.reason,
+            customerName: req.body.customerName
+        }
+        await writeDataToGoogleSheet(data);
         let customerName = "";
         if (req.body.customerName === "") {
-            customerName = await chatBotService.getFacebookUsername(req.body.psid);
+            customerName = username;
         } else customerName = req.body.customerName;
 
         // I demo response with sample text
