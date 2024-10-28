@@ -633,7 +633,7 @@ let handlePostBooking = async (req, res) => {
         let data = {
             username: username,
             email: req.body.email,
-            phoneNumber: req.body.phoneNumber,
+            phoneNumber: `'${req.body.phoneNumber}`,
             birthYear: req.body.birthYear,
             gender: req.body.gender,
             reason: req.body.reason,
