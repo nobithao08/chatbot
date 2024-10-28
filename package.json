@@ -21,7 +21,7 @@
     "ejs": "3.1.5",
     "express": "4.17.1",
     "google-auth-library": "^9.14.2",
-    "google-spreadsheet": "^4.1.4",
+    "google-spreadsheet": "^3.3.0",
     "moment": "^2.26.0",
     "request": "^2.88.2"
   },
