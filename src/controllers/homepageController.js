@@ -45,6 +45,7 @@ let writeDataToGoogleSheet = async (data) => {
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID, serviceAccountAuth);
 
     await doc.loadInfo(); // loads document properties and worksheets
+    await doc.updateProperties({ title: 'renamed doc' });
     const sheet = doc.sheetsByIndex[0]; // or use `doc.sheetsById[id]` or `doc.sheetsByTitle[title]`
 
     await sheet.addRow(
