@@ -564,5 +564,6 @@ module.exports = {
     handleSendBook: handleSendBook,
     handleSendSpecialty: handleSendSpecialty,
     handleSendFacility: handleSendFacility,
-    callSendAPI: callSendAPI
+    callSendAPI: callSendAPI,
+    getFacebookUsername: getFacebookUsername
 };
