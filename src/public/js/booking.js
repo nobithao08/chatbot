@@ -31,6 +31,9 @@ function validateInputFields() {
 
     let email = $("#email");
     let phoneNumber = $("#phoneNumber");
+    let birthYear = $("#birthYear");
+    let gender = $("#gender");
+    let reason = $("#reason");
 
     if (!email.val().match(EMAIL_REG)) {
         email.addClass("is-invalid");
@@ -45,6 +48,30 @@ function validateInputFields() {
     } else {
         phoneNumber.removeClass("is-invalid");
     }
+    // Kiểm tra năm sinh
+    const currentYear = new Date().getFullYear();
+    if (birthYear.val() === "" || isNaN(birthYear.val()) || birthYear.val() < 1900 || birthYear.val() > currentYear) {
+        birthYear.addClass("is-invalid");
+        return true;
+    } else {
+        birthYear.removeClass("is-invalid");
+    }
+
+    // Kiểm tra giới tính
+    if (gender.val() === "") {
+        gender.addClass("is-invalid");
+        return true;
+    } else {
+        gender.removeClass("is-invalid");
+    }
+
+    // Kiểm tra lý do
+    if (reason.val().trim() === "") {
+        reason.addClass("is-invalid");
+        return true;
+    } else {
+        reason.removeClass("is-invalid");
+    }
 
     return false;
 }
@@ -58,7 +85,10 @@ function handleClickButtonBooking() {
             psid: $("#psid").val(),
             customerName: $("#customerName").val(),
             email: $("#email").val(),
-            phoneNumber: $("#phoneNumber").val()
+            phoneNumber: $("#phoneNumber").val(),
+            birthYear: $("#birthYear").val(),
+            gender: $("#gender").val(),
+            reason: $("#reason").val()
         };
 
         if (!check) {
