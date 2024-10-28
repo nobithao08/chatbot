@@ -28,22 +28,19 @@ const IMAGE_SUCKHOATAMTHAN = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/1017
 const IMAGE_THANTIETNIEU = 'https://cdn.bookingcare.vn/fo/w384/2023/12/26/101739-than-tiet-nieu.png'
 
 let writeDataToGoogleSheet = async (data) => {
+    if (data.length === 0) {
+        logger.info("No data to write to the sheet.");
+        return;
+    }
+
+    const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+
     try {
         let currentDate = new Date();
         const format = "HH:mm DD/MM/YYYY";
         let formatedDate = moment(currentDate).format(format);
 
         // Initialize auth
-        const serviceAccountAuth = new JWT({
-            client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
-            private_key: GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Đảm bảo format chính xác
-            scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-        });
-
-        // Tạo đối tượng GoogleSpreadsheet
-        const doc = new GoogleSpreadsheet(SPREADSHEET_ID, serviceAccountAuth);
-
-        // Sử dụng xác thực
         await doc.useServiceAccountAuth({
             client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
             private_key: GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Đảm bảo format chính xác
