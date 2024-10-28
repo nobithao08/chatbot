@@ -35,8 +35,8 @@ let writeDataToGoogleSheet = async (data) => {
     const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
     await doc.useServiceAccountAuth({
-        client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        private_key: GOOGLE_PRIVATE_KEY,
+        client_email: JSON.parse(`"${GOOGLE_SERVICE_ACCOUNT_EMAIL}"`),
+        private_key: JSON.parse(`"${GOOGLE_PRIVATE_KEY}"`),
     });
 
     await doc.loadInfo(); // loads document properties and worksheets
