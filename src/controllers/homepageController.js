@@ -608,7 +608,7 @@ let handlePostBooking = async (req, res) => {
             \nHọ và tên: ${customerName}
             \nĐịa chỉ Email: ${req.body.email}
             \nSố điện thoại: ${req.body.phoneNumber}
-                      \nNăm sinh: ${birthYear}
+            \nNăm sinh: ${birthYear}
             \nGiới tính: ${req.body.gender}
             \nLý do đặt lịch: ${req.body.reason}
             `
