@@ -23,9 +23,9 @@ input, button {
     width: 100%;
 }
 .your-form-class {
-    max-width: 90%; /* Giới hạn chiều rộng để tránh tràn ra ngoài Webview */
-    margin: 0 auto; /* Căn giữa form */
+    max-width: 90%;
+    margin: 0 auto;
 }
 input, select, textarea {
-    min-height: 40px; /* Điều chỉnh chiều cao để đủ hiển thị */
+    min-height: 40px;
 }

@@ -25,6 +25,7 @@ function validateInputFields() {
 
     let email = $("#email");
     let phoneNumber = $("#phoneNumber");
+    let address = $("#address");
     let birthYear = $("#birthYear");
     let gender = $("#gender");
     let reason = $("#reason");
@@ -42,7 +43,12 @@ function validateInputFields() {
     } else {
         phoneNumber.removeClass("is-invalid");
     }
-
+    if (address.val().trim() === "") {
+        address.addClass("is-invalid");
+        return true;
+    } else {
+        address.removeClass("is-invalid");
+    }
     const currentYear = new Date().getFullYear();
     if (birthYear.val() === "" || isNaN(birthYear.val()) || birthYear.val() < 1900 || birthYear.val() > currentYear) {
         birthYear.addClass("is-invalid");
@@ -78,6 +84,7 @@ function handleClickButtonBooking() {
             customerName: $("#customerName").val(),
             email: $("#email").val(),
             phoneNumber: $("#phoneNumber").val(),
+            address: $("#address").val(),
             birthYear: $("#birthYear").val(),
             gender: $("#gender").val(),
             reason: $("#reason").val()

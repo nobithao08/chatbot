@@ -138,7 +138,7 @@ let handleGetStarted = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let username = await getFacebookUsername(sender_psid);
-            let response1 = { "text": `Xin chào ${username}, đây là trang chính thức của BookingCare with Nobi. Tôi có thể giúp gì cho bạn?` };
+            let response1 = { "text": `Xin chào ${username}, đây là trang chính thức của BookingCare. Tôi có thể giúp gì cho bạn?` };
 
             let response2 = getStartedTemplate();
 

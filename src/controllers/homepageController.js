@@ -56,6 +56,7 @@ let writeDataToGoogleSheet = async (data) => {
             "Tên Facebook": data.username,
             "Địa chỉ Email": data.email,
             "Số điện thoại": data.phoneNumber,
+            "Địa chỉ": data.address,
             "Năm sinh": data.birthYear,
             "Giới tính": data.gender,
             "Lý do đặt lịch": data.reason,
@@ -175,7 +176,7 @@ let handleMessage = async (sender_psid, received_message) => {
         for (let doctor in doctorsList) {
             if (messageText.includes(doctor.toLowerCase())) {
                 let doctorInfo = doctorsList[doctor];
-                await sendTextMessage(sender_psid, "Bạn đang tìm thông tin về bác sĩ. Dưới đây là thông tin chi tiết:");
+                await sendTextMessage(sender_psid, "Bạn đang tìm thông tin về bác sĩ. Đây là các thông tin chi tiết");
 
                 response = {
                     "attachment": {
@@ -204,7 +205,7 @@ let handleMessage = async (sender_psid, received_message) => {
 
         if (!doctorFound) {
             if (bookingKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn đang cần đặt lịch khám bệnh, vui lòng xem trang đặt lịch khám bệnh ở link bên dưới");
+                await sendTextMessage(sender_psid, "Bạn đang cần đặt lịch khám bệnh, đây là trang đặt lịch khám bệnh chính thức của hệ thống");
 
                 response = {
                     "attachment": {
@@ -227,7 +228,7 @@ let handleMessage = async (sender_psid, received_message) => {
                     }
                 };
             } else if (messageText.includes("bác sĩ")) {
-                await sendTextMessage(sender_psid, "Bạn đang tìm kiếm thông tin về bác sĩ, vui lòng xem danh sách bác sĩ dưới đây.");
+                await sendTextMessage(sender_psid, "Bạn đang tìm kiếm thông tin về bác sĩ, đây là danh sách các bác sĩ của hệ thống");
 
                 response = {
                     "attachment": {
@@ -251,7 +252,7 @@ let handleMessage = async (sender_psid, received_message) => {
                 };
             }
             else if (legPainKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về cơ xương khớp. Dưới đây là thông tin về khoa Cơ Xương Khớp:");
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về cơ xương khớp, tham khảo thêm thông tin về khoa Cơ Xương Khớp");
 
                 response = {
                     "attachment": {
@@ -275,7 +276,7 @@ let handleMessage = async (sender_psid, received_message) => {
                 };
             }
             else if (nervePainKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về thần kinh. Dưới đây là thông tin về khoa Thần kinh:");
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về thần kinh, tham khảo thêm thông tin về khoa Thần kinh");
 
                 response = {
                     "attachment": {
@@ -297,10 +298,9 @@ let handleMessage = async (sender_psid, received_message) => {
                         }
                     }
                 };
-                await sendMessage(sender_psid, response);
             }
             else if (digestiveKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về tiêu hóa. Dưới đây là thông tin về khoa Tiêu hóa:");
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về tiêu hóa, tham khảo thêm thông tin về khoa Tiêu hóa");
 
                 response = {
                     "attachment": {
@@ -324,7 +324,7 @@ let handleMessage = async (sender_psid, received_message) => {
                 };
             }
             else if (dermatologyKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về da liễu. Dưới đây là thông tin về khoa Da liễu:");
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về da liễu, tham khảo thêm thông tin về khoa Da liễu");
 
                 response = {
                     "attachment": {
@@ -348,7 +348,7 @@ let handleMessage = async (sender_psid, received_message) => {
                 };
             }
             else if (eyeKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về mắt. Dưới đây là thông tin về Chuyên Khoa Mắt:");
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về mắt, tham khảo thêm thông tin về Chuyên Khoa Mắt");
 
                 response = {
                     "attachment": {
@@ -372,7 +372,7 @@ let handleMessage = async (sender_psid, received_message) => {
                 };
             }
             else if (cardiologyKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về tim mạch. Dưới đây là thông tin về khoa Tim mạch:");
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về tim mạch, tham khảo thêm thông tin về khoa Tim mạch");
 
                 response = {
                     "attachment": {
@@ -396,7 +396,7 @@ let handleMessage = async (sender_psid, received_message) => {
                 };
             }
             else if (entKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về tai mũi họng. Dưới đây là thông tin về khoa Tai Mũi Họng:");
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về tai mũi họng, tham khảo thêm thông tin về khoa Tai Mũi Họng");
 
                 response = {
                     "attachment": {
@@ -420,7 +420,7 @@ let handleMessage = async (sender_psid, received_message) => {
                 };
             }
             else if (mentalHealthKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về sức khỏe tâm thần. Dưới đây là thông tin về khoa Sức khỏe tâm thần:");
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về sức khỏe tâm thần, tham khảo thêm thông tin về khoa Sức khỏe tâm thần");
 
                 response = {
                     "attachment": {
@@ -444,7 +444,7 @@ let handleMessage = async (sender_psid, received_message) => {
                 };
             }
             else if (urologyKeywords.some(keyword => messageText.includes(keyword))) {
-                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về Thận - Tiết niệu. Dưới đây là thông tin về khoa Thận - Tiết niệu:");
+                await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về Thận - Tiết niệu, tham khảo thêm thông tin về khoa Thận - Tiết niệu");
 
                 response = {
                     "attachment": {
@@ -468,7 +468,7 @@ let handleMessage = async (sender_psid, received_message) => {
                 };
             }
             else {
-                response = { "text": "Xin lỗi, tôi không hiểu yêu cầu của bạn. Bạn có thể nhắn rõ ràng hơn không" };
+                response = { "text": "Xin lỗi, tôi không hiểu yêu cầu của bạn. Bạn có thể cung cấp thông tin cụ thể hơn không" };
             }
         }
     }
@@ -530,7 +530,7 @@ async function handlePostback(sender_psid, received_postback) {
             break;
 
         default:
-            response = { "text": `Tôi không biết phản hồi với postback ${payload}` }
+            response = { "text": `Tôi không biết phản hồi với ${payload}` }
     }
     // if (payload === 'yes') {
     //     response = { "text": "Cảm ơn bạn đã cung cấp thông tin. Hệ thống sẽ sớm xem và phản hồi bạn sau. Vui lòng chờ!" };
