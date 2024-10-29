@@ -221,6 +221,13 @@ let handleMessage = async (sender_psid, received_message) => {
                                         "type": "web_url",
                                         "url": "https://nobithao-fe-bookingcare.vercel.app/home",
                                         "title": "Xem chi tiết"
+                                    },
+                                    {
+                                        "type": "web_url",
+                                        "url": `${process.env.URL_WEB_VIEW_BOOKING}/${senderID}`,
+                                        "webview_height_ratio": "tall",
+                                        "title": "Đặt lịch ngay",
+                                        "messenger_extensions": true //false: open the webview in new tab
                                     }
                                 ]
                             }]
