@@ -92,37 +92,31 @@ function handleClickButtonBooking() {
         };
 
         if (!check) {
-            // Gửi dữ liệu đến server Node.js trước khi đóng Webview
+            //close webview
+            MessengerExtensions.requestCloseBrowser(function success() {
+                // webview closed
+                callAjax(data);
+            }, function error(err) {
+                // an error occurred
+                console.log(err);
+                callAjax(data);
+                $('#customerInfor').css("display", "none");
+                $('#handleError').css("display", "block");
+            });
+
+            //send data to node.js server 
             $.ajax({
                 url: `${window.location.origin}/booking-ajax`,
                 method: "POST",
                 data: data,
-                success: function (response) {
-                    console.log(response);
-
-                    // Đóng Webview sau khi gửi dữ liệu thành công
-                    MessengerExtensions.requestCloseBrowser(
-                        function success() {
-                            // Webview đã đóng
-                            console.log("Webview closed successfully.");
-                        },
-                        function error(err) {
-                            // Xử lý lỗi nếu không thể đóng Webview
-                            console.log(err);
-                            $('#customerInfor').css("display", "none");
-                            $('#handleError').css("display", "block");
-                        }
-                    );
+                success: function (data) {
+                    console.log(data);
                 },
                 error: function (error) {
-                    // Xử lý khi gửi dữ liệu gặp lỗi
                     console.log(error);
-                    $('#customerInfor').css("display", "none");
-                    $('#handleError').css("display", "block");
                 }
-            });
+            })
         }
-
     }
     );
 }
