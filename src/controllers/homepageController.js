@@ -46,13 +46,12 @@ let writeDataToGoogleSheet = async (data) => {
         // Initialize auth
         await doc.useServiceAccountAuth({
             client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
-            private_key: GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Đảm bảo format chính xác
+            private_key: GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
         });
 
-        await doc.loadInfo(); // Tải thông tin tài liệu và worksheets
-        const sheet = doc.sheetsByIndex[0]; // Hoặc sử dụng `doc.sheetsById[id]` hoặc `doc.sheetsByTitle[title]`
+        await doc.loadInfo();
+        const sheet = doc.sheetsByIndex[0];
 
-        // Thêm hàng mới vào bảng
         await sheet.addRow({
             "Tên Facebook": data.username,
             "Địa chỉ Email": data.email,
@@ -119,7 +118,6 @@ let postWebhook = (req, res) => {
     }
 };
 
-// Xử lý tin nhắn
 const sendTextMessage = async (senderId, text) => {
     const messageData = { text: text };
     await request({
@@ -133,7 +131,6 @@ const sendTextMessage = async (senderId, text) => {
     });
 };
 
-// Xử lý tin nhắn
 let handleMessage = async (sender_psid, received_message) => {
     let response;
 
@@ -148,9 +145,6 @@ let handleMessage = async (sender_psid, received_message) => {
     const mentalHealthKeywords = ["stress", "trầm cảm", "lo âu", "tinh thần", "khó ngủ", "cảm giác", "buồn bã", "cô đơn", "ngủ", "căng thẳng", "tâm thần phân liệt", "hoang tưởng", "cảm xúc", "tâm trí", "lưỡng cực", "nhân cách", "ảo giác", "nói cười một mình", "bi quan", "bồn chồn", "hoảng hốt", "buồn rầu", "tập trung", "tâm lý", "tư duy", "lo lắng", "sợ hãi", "sợ", "xa lánh", "kì lạ"];
     const urologyKeywords = ["thận", "tiểu", "đái", "viêm bàng quang", "tiền liệt tuyến", "bàng quang"];
 
-
-
-    // Danh sách bác sĩ với tên, đường dẫn chi tiết và hình ảnh
     const doctorsList = {
         "bác sĩ Quyết": {
             url: "https://nobithao-fe-bookingcare.vercel.app/detail-doctor/20",
@@ -177,12 +171,10 @@ let handleMessage = async (sender_psid, received_message) => {
     if (received_message.text) {
         let messageText = received_message.text.toLowerCase();
 
-        // Kiểm tra xem có tên bác sĩ cụ thể nào trong tin nhắn hay không
         let doctorFound = false;
         for (let doctor in doctorsList) {
             if (messageText.includes(doctor.toLowerCase())) {
                 let doctorInfo = doctorsList[doctor];
-                // Gửi tin nhắn văn bản trước
                 await sendTextMessage(sender_psid, "Bạn đang tìm thông tin về bác sĩ. Dưới đây là thông tin chi tiết:");
 
                 response = {
@@ -210,7 +202,6 @@ let handleMessage = async (sender_psid, received_message) => {
             }
         }
 
-        // Nếu không tìm thấy tên bác sĩ cụ thể, tiếp tục kiểm tra các từ khóa khác
         if (!doctorFound) {
             if (bookingKeywords.some(keyword => messageText.includes(keyword))) {
                 await sendTextMessage(sender_psid, "Bạn đang cần đặt lịch khám bệnh, vui lòng xem trang đặt lịch khám bệnh ở link bên dưới");
@@ -235,7 +226,7 @@ let handleMessage = async (sender_psid, received_message) => {
                         }
                     }
                 };
-            } else if (messageText.includes("bác sĩ")) { // Kiểm tra từ khóa chung "bác sĩ" nếu không có tên bác sĩ cụ thể
+            } else if (messageText.includes("bác sĩ")) {
                 await sendTextMessage(sender_psid, "Bạn đang tìm kiếm thông tin về bác sĩ, vui lòng xem danh sách bác sĩ dưới đây.");
 
                 response = {
@@ -306,6 +297,7 @@ let handleMessage = async (sender_psid, received_message) => {
                         }
                     }
                 };
+                await sendMessage(sender_psid, response);
             }
             else if (digestiveKeywords.some(keyword => messageText.includes(keyword))) {
                 await sendTextMessage(sender_psid, "Bạn có vẻ đang gặp vấn đề về tiêu hóa. Dưới đây là thông tin về khoa Tiêu hóa:");
@@ -512,7 +504,6 @@ let handleMessage = async (sender_psid, received_message) => {
     callSendAPI(sender_psid, response);
 };
 
-// Xử lý sự kiện postback
 async function handlePostback(sender_psid, received_postback) {
     let response;
     let payload = received_postback.payload;
@@ -552,7 +543,6 @@ async function handlePostback(sender_psid, received_postback) {
     callSendAPI(sender_psid, response);
 };
 
-// Gửi tin nhắn qua API
 let callSendAPI = (sender_psid, response) => {
     let request_body = {
         "recipient": {
@@ -659,9 +649,6 @@ let handlePostBooking = async (req, res) => {
         if (req.body.customerName === "") {
             customerName = username;
         } else customerName = req.body.customerName;
-
-        // I demo response with sample text
-        // you can check database for customer order's status
 
         let response1 = {
             "text": `---Thông tin người dùng đặt lịch---

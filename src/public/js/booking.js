@@ -7,17 +7,12 @@
 }(document, 'script', 'Messenger'));
 
 window.extAsyncInit = function () {
-    // the Messenger Extensions JS SDK is done loading 
-
     MessengerExtensions.getContext('1065655205124699',
         function success(thread_context) {
-            // success
-            //set psid to input
             $("#psid").val(thread_context.psid);
             handleClickButtonBooking();
         },
         function error(err) {
-            // error
             console.log('Lỗi đặt lịch khám bệnh chatbot', err);
             $("#psid").val(senderId);
             handleClickButtonBooking();
@@ -25,7 +20,6 @@ window.extAsyncInit = function () {
     );
 };
 
-//validate inputs
 function validateInputFields() {
     const EMAIL_REG = /[a-zA-Z][a-zA-Z0-9_\.]{1,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}/g;
 
@@ -48,7 +42,7 @@ function validateInputFields() {
     } else {
         phoneNumber.removeClass("is-invalid");
     }
-    // Kiểm tra năm sinh
+
     const currentYear = new Date().getFullYear();
     if (birthYear.val() === "" || isNaN(birthYear.val()) || birthYear.val() < 1900 || birthYear.val() > currentYear) {
         birthYear.addClass("is-invalid");
@@ -57,7 +51,6 @@ function validateInputFields() {
         birthYear.removeClass("is-invalid");
     }
 
-    // Kiểm tra giới tính
     if (gender.val() === "") {
         gender.addClass("is-invalid");
         return true;
@@ -65,7 +58,6 @@ function validateInputFields() {
         gender.removeClass("is-invalid");
     }
 
-    // Kiểm tra lý do
     if (reason.val().trim() === "") {
         reason.addClass("is-invalid");
         return true;
@@ -79,7 +71,7 @@ function validateInputFields() {
 
 function handleClickButtonBooking() {
     $("#btnBooking").on("click", function (e) {
-        let check = validateInputFields(); // return true or false
+        let check = validateInputFields();
 
         let data = {
             psid: $("#psid").val(),
@@ -92,7 +84,6 @@ function handleClickButtonBooking() {
         };
 
         if (!check) {
-            // Gửi dữ liệu tới server Node.js trước khi đóng Webview
             $.ajax({
                 url: `${window.location.origin}/booking-ajax`,
                 method: "POST",
@@ -100,23 +91,19 @@ function handleClickButtonBooking() {
                 success: function (response) {
                     console.log(response);
 
-                    // Hiển thị thông báo thành công
                     $('#customerInfor').css("display", "none");
                     $('#handleError').css("display", "block");
 
-                    // Đóng Webview sau khi gửi dữ liệu thành công
                     MessengerExtensions.requestCloseBrowser(
                         function success() {
                             console.log("Webview closed successfully.");
                         },
                         function error(err) {
-                            // Xử lý nếu không thể đóng Webview
                             console.log(err);
                         }
                     );
                 },
                 error: function (error) {
-                    // Hiển thị lỗi nếu không thể gửi dữ liệu
                     console.log(error);
                     $('#customerInfor').css("display", "none");
                     $('#handleError').css("display", "block");
@@ -128,7 +115,6 @@ function handleClickButtonBooking() {
 
 
 function callAjax(data) {
-    //send data to node.js server 
     $.ajax({
         url: `${window.location.origin}/booking-ajax`,
         method: "POST",
