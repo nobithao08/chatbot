@@ -15,3 +15,9 @@ a, a:hover, a:focus {
     font-weight: 600;
     font-size: 30px;
 }
+.form-group {
+    margin-bottom: 1rem;
+}
+input, button {
+    width: 100%;
+}
