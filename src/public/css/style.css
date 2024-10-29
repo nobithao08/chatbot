@@ -15,3 +15,17 @@ a, a:hover, a:focus {
     font-weight: 600;
     font-size: 30px;
 }
+.form-group {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+}
+input, button {
+    width: 100%;
+}
+.your-form-class {
+    max-width: 90%; /* Giới hạn chiều rộng để tránh tràn ra ngoài Webview */
+    margin: 0 auto; /* Căn giữa form */
+}
+input, select, textarea {
+    min-height: 40px; /* Điều chỉnh chiều cao để đủ hiển thị */
+}
