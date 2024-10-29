@@ -79,7 +79,7 @@ function validateInputFields() {
 
 function handleClickButtonBooking() {
     $("#btnBooking").on("click", function (e) {
-        let check = validateInputFields(); //return true or false
+        let check = validateInputFields(); // return true or false
 
         let data = {
             psid: $("#psid").val(),
@@ -92,34 +92,40 @@ function handleClickButtonBooking() {
         };
 
         if (!check) {
-            //close webview
-            MessengerExtensions.requestCloseBrowser(function success() {
-                // webview closed
-                callAjax(data);
-            }, function error(err) {
-                // an error occurred
-                console.log(err);
-                callAjax(data);
-                $('#customerInfor').css("display", "none");
-                $('#handleError').css("display", "block");
-            });
-
-            //send data to node.js server 
+            // Gửi dữ liệu tới server Node.js trước khi đóng Webview
             $.ajax({
                 url: `${window.location.origin}/booking-ajax`,
                 method: "POST",
                 data: data,
-                success: function (data) {
-                    console.log(data);
+                success: function (response) {
+                    console.log(response);
+
+                    // Hiển thị thông báo thành công
+                    $('#customerInfor').css("display", "none");
+                    $('#handleError').css("display", "block");
+
+                    // Đóng Webview sau khi gửi dữ liệu thành công
+                    MessengerExtensions.requestCloseBrowser(
+                        function success() {
+                            console.log("Webview closed successfully.");
+                        },
+                        function error(err) {
+                            // Xử lý nếu không thể đóng Webview
+                            console.log(err);
+                        }
+                    );
                 },
                 error: function (error) {
+                    // Hiển thị lỗi nếu không thể gửi dữ liệu
                     console.log(error);
+                    $('#customerInfor').css("display", "none");
+                    $('#handleError').css("display", "block");
                 }
-            })
+            });
         }
-    }
-    );
+    });
 }
+
 
 function callAjax(data) {
     //send data to node.js server 
