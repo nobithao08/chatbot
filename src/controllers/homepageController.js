@@ -132,7 +132,7 @@ const sendTextMessage = async (senderId, text) => {
     });
 };
 
-let handleMessage = async (sender_psid, received_message) => {
+let handleMessage = async (sender_psid, received_message, senderID) => {
     let response;
 
     const bookingKeywords = ["đặt lịch", "cách đặt lịch", "đặt lịch khám", "tôi muốn đặt lịch"];
@@ -224,8 +224,10 @@ let handleMessage = async (sender_psid, received_message) => {
                                     },
                                     {
                                         "type": "web_url",
-                                        "url": "https://nobithao-fe-bookingcare.vercel.app/home",
-                                        "title": "Xem chi tiết"
+                                        "url": `${process.env.URL_WEB_VIEW_BOOKING}/${senderID}`,
+                                        "webview_height_ratio": "tall",
+                                        "title": "ĐẶT LỊCH NGAY",
+                                        "messenger_extensions": true //false: open the webview in new tab
                                     }
                                 ]
                             }]
