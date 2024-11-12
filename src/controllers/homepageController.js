@@ -670,7 +670,11 @@ let handlePostBooking = async (req, res) => {
             `
         };
 
+        let response2 = { "text": `Cảm ơn bạn đã đặt lịch khám bệnh tại hệ thống BookingCare. Hệ thống sẽ sớm gọi điện cho bạn để xác nhận thời gian cho lịch hẹn. Vui lòng chờ điện thoại!` };
+
         await chatBotService.callSendAPI(req.body.psid, response1);
+
+        await chatBotService.callSendAPI(req.body.psid, response2);
 
         return res.status(200).json({
             message: "ok"
