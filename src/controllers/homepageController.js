@@ -135,7 +135,7 @@ const sendTextMessage = async (senderId, text) => {
 let handleMessage = async (sender_psid, received_message, senderID) => {
     let response;
 
-    const bookingKeywords = ["đặt lịch", "cách đặt lịch", "đặt lịch khám", "tôi muốn đặt lịch"];
+    const bookingKeywords = ["đặt lịch", "cách đặt lịch", "đặt lịch khám", "tôi muốn đặt lịch", "tư vấn", "khám bệnh", "khám", "thanh toán"];
     const legPainKeywords = ["đau chân", "đau lưng", "đau tay", "xương", "khớp", "đau cơ", "chân", "lưng", "tay", "cơ", "gout", "gối", "vai", "khủy"];
     const nervePainKeywords = ["não", "đầu", "thần kinh", "chóng mặt", "tiền đình", "tăng động", "kinh", "tê bì nửa mặt", "Pakison", "ý thức"];
     const digestiveKeywords = ["trúng thực", "ăn", "uống", "tiêu hóa", "khó tiêu", "trĩ", "táo bón", "tiêu cháy", "thực quản", "nội soi", "dạ dày", "đại tràng", "nôn", "ói", "bụng", "ợ chua", "đầy hơi", "thực quản", "ruột", "tá tràng", "u nang tuyến tụy", "gan", "mật"];
