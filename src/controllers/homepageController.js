@@ -140,7 +140,7 @@ let handleMessage = async (sender_psid, received_message, senderID) => {
     const nervePainKeywords = ["não", "đầu", "thần kinh", "chóng mặt", "tiền đình", "tăng động", "kinh", "tê bì nửa mặt", "Pakison", "ý thức"];
     const digestiveKeywords = ["trúng thực", "ăn", "uống", "tiêu hóa", "khó tiêu", "trĩ", "táo bón", "tiêu cháy", "thực quản", "nội soi", "dạ dày", "đại tràng", "nôn", "ói", "bụng", "ợ chua", "đầy hơi", "thực quản", "ruột", "tá tràng", "u nang tuyến tụy", "gan", "mật"];
     const dermatologyKeywords = ["ngứa", "mụn", "mẩn ngứa", "vảy nến", "chàm", "da", "Da", "tàn nhang", "Nấm", "nấm", "rụng tóc", "dị ứng", "viêm nang da", "hói đầu",];
-    const eyeKeywords = ["nhìn thấy", "mắt", "cận thị", "viễn thị", "loạn thị", "nhược thị", "lão thị", "đục thủy tinh thể", "tuyến lệ", "nhãn áp", "giác mạc", "võng mạc"];
+    const eyeKeywords = ["nhìn thấy", "nhìn", "mắt", "cận thị", "viễn thị", "loạn thị", "nhược thị", "lão thị", "đục thủy tinh thể", "tuyến lệ", "nhãn áp", "giác mạc", "võng mạc"];
     const cardiologyKeywords = ["đau ngực", "tim", "huyết áp", "khó thở", "choáng váng"];
     const entKeywords = ["tai", "mũi", "họng", "amidan", "viêm xoang", "ho", "màng nhỉ", "điếc", "nghe", "ngửi", "bị chảy máu cam", "họng", "khó nuốt", "ngủ ngáy"];
     const mentalHealthKeywords = ["stress", "trầm cảm", "lo âu", "tinh thần", "khó ngủ", "cảm giác", "buồn bã", "cô đơn", "ngủ", "căng thẳng", "tâm thần phân liệt", "hoang tưởng", "cảm xúc", "tâm trí", "lưỡng cực", "nhân cách", "ảo giác", "nói cười một mình", "bi quan", "bồn chồn", "hoảng hốt", "buồn rầu", "tập trung", "tâm lý", "tư duy", "lo lắng", "sợ hãi", "sợ", "xa lánh", "kì lạ"];
